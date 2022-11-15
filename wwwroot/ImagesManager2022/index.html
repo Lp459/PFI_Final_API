@@ -386,6 +386,9 @@
             function UserConnected(){
                 log("connecter")
             }
+            function OpenDialogVerifyCodeEmail(){
+                //ouvrir verify Dialog 
+            }
             function getConfirmCodeFromForm(){
                 if ($("#confirmEmailForm")[0].checkValidity()) {
                     let user = {
@@ -501,7 +504,7 @@
                         click: function () {
                             let user = inscriptionFromForm();
                             if(user){
-                                REGISTER(user ,getImagesList , error)
+                                REGISTER(user ,OpenDialogVerifyCodeEmail , error)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
