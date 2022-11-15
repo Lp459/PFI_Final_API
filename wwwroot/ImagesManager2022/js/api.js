@@ -1,4 +1,5 @@
 const apiBaseURL = "http://localhost:5000/api/images";
+const baseUrl = "http://localhost:5000/";
 
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
@@ -51,6 +52,26 @@ function DELETE(id, successCallBack, errorCallBack) {
         url: apiBaseURL + "/" + id,
         type: 'DELETE',
         success: () => { successCallBack() },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+function LOGIN(data , successCallBack ,errorCallBack){
+    $.ajax({
+        url: baseUrl + "/token",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+function REGISTER(data ,successCallBack ,errorCallBack){
+    $.ajax({
+        url: baseUrl + "/accounts/register",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }

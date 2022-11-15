@@ -9,7 +9,7 @@ module.exports =
         constructor(HttpContext,) {
             super(HttpContext, new usersRepository(), true /* read authorisation */);
         }
-
+        //information qu<on a besoin pour faire l'avatar
         index(id) {
             if (!isNaN(id)) {
                 this.HttpContext.response.JSON(this.repository.get(id));

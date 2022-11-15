@@ -20,7 +20,12 @@ body {
 }
 .headerLayout {
     display: grid;
-    grid-template-columns: 80px auto 60px auto auto auto;
+    grid-template-columns: 80px auto 60px auto auto;
+    align-items: center;
+}
+.iconAndUserLogin{
+    display: grid;
+    grid-template-columns: 1000px auto auto auto auto;
     align-items: center;
 }
 .outLinedText {
