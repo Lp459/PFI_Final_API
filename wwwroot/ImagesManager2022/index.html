@@ -97,20 +97,23 @@
                     </form>
                 </div>
                 <div id="inscriptionDlg">
-                    <form id="inscriptionDlg">
-                        
-                        
-                        <label for="title_input">Id</label>
-                        <input type="text" id="Id_input" class="form-control" required></input>
+                    <form id="inscriptionForm">
+                        <input type="hidden" id="UserId_input" value="0">
+                        <input type="hidden" id="AvatarGUID_input" value="0">
 
                         <label for="Name_input">Name</label>
                         <input type="text" id="Name_input" class="form-control" required></input>
 
                         <label for="Email_input">Email</label>
-                        <input type="text" id="Email_input" class="form-control" required></input>
-                        <label for="Email_input">Password</label>
-                        <input type="text" id="Password_input" class="form-control" required></input>
+                        <input type="email" id="Email_input" class="form-control" required></input>
+                        <label for="Password_input">Password</label>
+                        <input type="password" id="Password_input" class="form-control" required></input>
+                        <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
                        
+                        <label for="imageUser">Image</label>
+                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
+                            waitingImage='images/writing.gif'>
+                        </div>
                        
                     </form>
                 </div>
@@ -118,15 +121,24 @@
                     <form id="loginForm">
                         
                         <label for="Email_input">Email</label>
-                        <input type="text" id="Email_input" class="form-control" required></input>
+                        <input type="text" id="EmailLogin_input" class="form-control" required></input>
                         <label for="Email_input">Password</label>
-                        <input type="text" id="Password_input" class="form-control" required></input>
+                        <input type="text" id="PasswordLogin_input" class="form-control" required></input>
                        
                        
                     </form>
                 </div>
                 <div id="confirmDeleteDlg">
                     <span id="confirmationMessage"></span>
+                </div>
+                <div id="confirmEmailDlg">
+                    <form id="confirmEmailForm">
+                        <input type="hidden" id="UserIdConfirm_input" value="0">
+                        <span>Vérifier votre boîte de courriel pour un code de vérification</span>
+                    <label for="code_input">Code de vérification</label>
+                        <input type="text" id="code_input" class="form-control" required></input>
+                    </form>
+                    
                 </div>
                 <div id="errorDlg">
                     <span id="errorMessage"></span>
@@ -337,8 +349,6 @@
             function inscription(){
                 holdCheckETag = true;
                 createMode = true;
-                resetimageForm();
-                ImageUploader.imageRequired('image', true);
                 $("#inscriptionDlg").dialog('option', 'title', "Inscription");
                 $("#inscriptionDlgOkBtn").text("Inscription");
                 $("#inscriptionDlg").dialog('open');
@@ -346,8 +356,8 @@
             function loginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
                     let user = {
-                        Email: $("#Email_input").val(),
-                        Password: $("#Password_input").val(),
+                        Email: $("#EmailLogin_input").val(),
+                        Password: $("#PasswordLogin_input").val(),
                         
                     };
                     return user;
@@ -359,10 +369,12 @@
             function inscriptionFromForm(){
                 if ($("#inscriptionForm")[0].checkValidity()) {
                     let user = {
-                        Id: parseInt($("#Id_input").val()),
+                        Id: parseInt($("#UserId_input").val()),
                         Name: $("#Name_input").val(),
                         Email: $("#Email_input").val(),
                         Password: $("#Password_input").val(),
+                        AvatarGUID: $("#AvatarGUID_input").val(),
+                        ImageData: ImageUploader.getImageData('imageUser'),
                         
                     };
                     return user;
@@ -374,7 +386,18 @@
             function UserConnected(){
                 log("connecter")
             }
-
+            function getConfirmCodeFromForm(){
+                if ($("#confirmEmailForm")[0].checkValidity()) {
+                    let user = {
+                        Id: parseInt($("#UserIdConfirm_input").val()),
+                        code: $("#code_input").val(),
+                    };
+                    return user;
+                } else {
+                    $("#inscriptionForm")[0].reportValidity()
+                }
+                return false;   
+            }
 
 
             function init_UI() {
@@ -478,9 +501,9 @@
                         click: function () {
                             let user = inscriptionFromForm();
                             if(user){
-                                LOGIN(user ,getImagesList , error)
+                                REGISTER(user ,getImagesList , error)
                                 $(".scrollContainer").scrollTop(0);
-
+   
                             }
                             holdCheckETag = false;
                             $(this).dialog("close");
@@ -495,7 +518,42 @@
                         }
                     }]
                 });
-
+                $("#confirmEmailDlg").dialog({
+                    title: "Confirmer Email",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 640,
+                    minWidth: 640,
+                    maxWidth: 640,
+                    height: 780,
+                    minHeight: 780,
+                    maxHeight: 780,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        id: "confirmEmailDlgOkBtn",
+                        text: "Title will be changed dynamically",
+                        click: function () {
+                            let user = getConfirmCodeFromForm()
+                            if(user){
+                                VERIFY(user)
+                                $(".scrollContainer").scrollTop(0);
+   
+                            }
+                            holdCheckETag = false;
+                            $(this).dialog("close");
+                            
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
 
                 $("#confirmDeleteDlg").dialog({
                     title: "Attention!",

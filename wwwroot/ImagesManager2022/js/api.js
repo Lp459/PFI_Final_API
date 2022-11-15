@@ -1,5 +1,5 @@
 const apiBaseURL = "http://localhost:5000/api/images";
-const baseUrl = "http://localhost:5000/";
+const baseUrl = "http://localhost:5000";
 
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
