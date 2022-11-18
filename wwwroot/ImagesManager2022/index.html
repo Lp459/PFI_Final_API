@@ -63,11 +63,16 @@
                     <div class="iconAndUserLogin">
                         <span></span>
                         <!--icon --><span></span>
-                        <span class="cmd fa fa-solid fa-circle-user" id="connexionCmd" title="se connecter"
+                        <span class="cmd fa fa-solid fa-circle-user" id="connexionCmd" title="Se connecter"
                         data-toggle="tooltip"></span>
-                        <span class="cmd fa fa-user-plus" id="inscriptionCmd" title="s'inscrire"
+                        <span class="cmd fa fa-user-plus" id="inscriptionCmd" title="S'inscrire"
                         data-toggle="tooltip"></span>
                     </div>
+                </div>
+                <div class="profilAndLogout">
+                    <span id="avatar" class="avatar">Image Ici</span>
+                    <span id="userName" class="userName">user name ici</span>
+                    <span class="cmd fas fa-user-minus" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
                 </div>
             </div>
 
@@ -353,6 +358,10 @@
                 $("#inscriptionDlgOkBtn").text("Inscription");
                 $("#inscriptionDlg").dialog('open');
             }
+            function deconnexion(){
+                holdCheckETag = true;
+                createMode = false;
+            }
             function loginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
                     let user = {
@@ -407,6 +416,7 @@
                 $("#newImageCmd").click(newImage)
                 $("#connexionCmd").click(connection)
                 $("#inscriptionCmd").click(inscription)
+                $("#deconnexionCmd").click(deconnexion)
 
 
                 $("#imageDlg").dialog({

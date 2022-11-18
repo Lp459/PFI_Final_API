@@ -20,7 +20,7 @@ body {
 }
 .headerLayout {
     display: grid;
-    grid-template-columns: 80px auto 60px auto auto;
+    grid-template-columns: 80px auto auto 200% auto;
     align-items: center;
 }
 .iconAndUserLogin{
@@ -235,6 +235,20 @@ label {
 }
 
 div2,
-span2 {
+span {
     border: 1px solid red;
+}
+
+#newImageCmd {
+    flex-direction: row;
+    align-self: center;
+    margin-left: 10%;
+}
+
+.profilAndLogout {
+    display: grid;
+    grid-template-columns: 70px 230px auto;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 20px;
 }
