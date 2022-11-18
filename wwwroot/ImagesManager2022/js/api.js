@@ -2,8 +2,8 @@ const User = require("../../../models/user");
 
 const apiBaseURL = "http://localhost:5000/api/images";
 const baseUrl = "http://localhost:5000";
-const verified = false;
-const loggedIn = false;
+//const verified = false;
+//const loggedIn = false;
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL,
