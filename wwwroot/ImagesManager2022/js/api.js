@@ -1,6 +1,9 @@
+const User = require("../../../models/user");
+
 const apiBaseURL = "http://localhost:5000/api/images";
 const baseUrl = "http://localhost:5000";
-
+const verified = false;
+const loggedIn = false;
 function HEAD(successCallBack, errorCallBack) {
     $.ajax({
         url: apiBaseURL,
@@ -70,6 +73,16 @@ function REGISTER(data ,successCallBack ,errorCallBack){
         url: baseUrl + "/accounts/register",
         type: 'POST',
         contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
+//verify?id=...&code=.....
+function VERIFY(data ,successCallBack ,errorCallBack){
+    $.ajax({
+        url: baseUrl + "/verify?id="+data.Id + "&code="+data.code,
+        type: 'GET',
         data: JSON.stringify(data),
         success: (data) => { successCallBack(data) },
         error: function (jqXHR) { errorCallBack(jqXHR.status) }

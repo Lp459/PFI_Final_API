@@ -166,6 +166,8 @@
             let appendCount = 3;
             let previousScrollPosition = 0;
             let appendMode = false;
+            const verified = false;
+            const loggedIn = false;
 
             init_UI();
             HEAD(checkETag, error);
@@ -384,10 +386,27 @@
                 return false;   
             }
             function UserConnected(){
-                log("connecter")
+                loggedIn = true;
+                if(verified){
+
+                }
+                else{
+                    OpenDialogVerifyCodeEmail();
+                }
+                
+                //modifier son profil donc afficher avatar et nom
             }
             function OpenDialogVerifyCodeEmail(){
                 //ouvrir verify Dialog 
+                holdCheckETag = true;
+                createMode = true;
+                $("#confirmEmailDlg").dialog('option', 'title', "Verify");
+                $("#confirmEmailDlgOkBtn").text("Verify Code");
+                $("#confirmEmailDlg").dialog('open');
+            }
+            function UserVerified(){
+                verified = true;
+                connection();
             }
             function getConfirmCodeFromForm(){
                 if ($("#confirmEmailForm")[0].checkValidity()) {
@@ -467,7 +486,7 @@
                         click: function () {
                             let user = loginFromForm();
                             if(user){
-                                LOGIN(user ,getImagesList , error)
+                                LOGIN(user ,UserConnected , error)
                                 $(".scrollContainer").scrollTop(0);
 
                             }
@@ -540,7 +559,7 @@
                         click: function () {
                             let user = getConfirmCodeFromForm()
                             if(user){
-                                VERIFY(user)
+                                VERIFY(user ,UserVerified , error)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
