@@ -68,6 +68,16 @@ function LOGIN(data , successCallBack ,errorCallBack){
         error: function (jqXHR) { errorCallBack(jqXHR.status) }
     });
 }
+function LOGOUT(data, successCallBack, errorCallBack) {
+    $.ajax({
+        url: baseUrl + `/logout?userId=${data.id}`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
+}
 function REGISTER(data ,successCallBack ,errorCallBack){
     $.ajax({
         url: baseUrl + "/accounts/register",

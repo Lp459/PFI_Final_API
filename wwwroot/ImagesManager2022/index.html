@@ -72,7 +72,7 @@
                 <div class="profilAndLogout">
                     <span id="avatar" class="avatar">Image Ici</span>
                     <span id="userName" class="userName">user name ici</span>
-                    <span class="cmd fas fa-user-minus" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
+                    <span class="cmd fas fa-sign-out-alt" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
                 </div>
             </div>
 
@@ -173,6 +173,7 @@
             let appendMode = false;
             const verified = false;
             const loggedIn = false;
+            let userId = 0;
 
             init_UI();
             HEAD(checkETag, error);
@@ -363,6 +364,7 @@
             function deconnexion(){
                 holdCheckETag = true;
                 createMode = false;
+                LOGOUT(userId, getImagesList, error)
             }
             function loginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
@@ -394,10 +396,11 @@
                 }
                 return false;   
             }
-            function UserConnected(){
+            function UserConnected(token){
                 loggedIn = true;
                 if(verified){
-
+                    userId = token.userId;
+                    $("userName").html = token.userName;
                 }
                 else{
                     OpenDialogVerifyCodeEmail();
@@ -496,7 +499,7 @@
                         click: function () {
                             let user = loginFromForm();
                             if(user){
-                                LOGIN(user ,UserConnected , error)
+                                LOGIN(user, UserConnected, error)
                                 $(".scrollContainer").scrollTop(0);
 
                             }
