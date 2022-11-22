@@ -10,11 +10,12 @@ module.exports =
             super(new ImageModel(), true /* cached */);
             this.setBindExtraDataMethod(this.bindImageURL);
         }
-        getAll(params = null){
+        //getAll(params = null){
             //override getAll de repo pour chercher keywords 
-            let images = super.getAll(params);
+        //    let images = super.getAll(params);
             //chercher keywords 
-        }
+       //     return images;
+       // }
         bindImageURL(image) {
             if (image) {
 

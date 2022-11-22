@@ -9,7 +9,7 @@ class Image extends Model{
         this.Date =  0;
         this.GUID = "";
         this.shared = false;
-        this.UserId = 0;
+        this.Userid = 0;
 
 
         this.addValidator('Title','string');
@@ -17,6 +17,6 @@ class Image extends Model{
         this.addValidator('Shared', 'boolean');
         this.addValidator('Date', 'integer');
         this.addValidator('GUID', 'string');
-        this.addValidator('UserId', 'integer');
+        this.addValidator('Userid', 'integer');
     }
 }
