@@ -148,6 +148,9 @@
                 <div id="errorDlg">
                     <span id="errorMessage"></span>
                 </div>
+                <div id="confirmLogOffDlg">
+                    <span id="confirmLogOffText">Voulez-vous vraiment vous déconnecter ?</span>
+                </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -363,8 +366,10 @@
             }
             function deconnexion(){
                 holdCheckETag = true;
-                createMode = false;
-                LOGOUT(userId, getImagesList, error)
+                createMode = true;
+                $("#confirmLogOffDlg").dialog('option', 'title', "Déconnexion");
+                $("#confirmLogOffDlg").dialog('open');
+                
             }
             function loginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
@@ -638,7 +643,36 @@
                         }
                     }]
                 });
-
+                $("#confirmLogOffDlg").dialog({
+                    title: "ConfirmLogOff...",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 500, minWidth: 500, maxWidth: 500,
+                    height: 230, minHeight: 230, maxHeight: 230,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        id : "ConfirmLogOffBtnOk",
+                        text: "confirm",
+                        click: function () {
+                            holdCheckETag = false;
+                            imageIdToDelete = 0;
+                            if(userId != null){
+                                //pt mettre une fonction successcallback qui reset le client a cause du logout
+                                LOGOUT(userId, getImagesList, error)
+                            }
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            imageIdToDelete = 0;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
                 $(".scrollContainer").scroll(function () {
                     if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
                         getImagesList(false);

@@ -11,6 +11,7 @@ class Image extends Model{
         this.shared = false;
         this.UserId = 0;
 
+
         this.addValidator('Title','string');
         this.addValidator('Description', 'string');
         this.addValidator('Shared', 'boolean');
