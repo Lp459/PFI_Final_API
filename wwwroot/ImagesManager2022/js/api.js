@@ -1,7 +1,8 @@
 //const User = require("../../../models/user");
-
+//changer le url quand le server glitch est fait -----------------------------------------------------------------
 const apiBaseURL = "http://localhost:5000/api/images";
 const baseUrl = "http://localhost:5000";
+
 //const verified = false;
 //const loggedIn = false;
 function HEAD(successCallBack, errorCallBack) {
@@ -125,30 +126,12 @@ function REGISTER(data, successCallBack, errorCallBack) {
   });
 }
 //verify?id=...&code=.....
-function VERIFY(data, successCallBack, errorCallBack) {
-  $.ajax({
-    url: baseUrl + "/verify?id=" + data.Id + "&code=" + data.code,
-    type: "GET",
-    data: JSON.stringify(data),
-    success: (data) => {
-      successCallBack(data);
-    },
-    error: function (jqXHR) {
-      errorCallBack(jqXHR.status);
-    },
-  });
-}
-
-function GET_USER(data, successCallBack, errorCallBack) {
-  $.ajax({
-    url: baseUrl + `/accounts/index?id=${data}`,
-    type: "GET",
-    data: JSON.stringify(data),
-    success: (data) => {
-      successCallBack(data);
-    },
-    error: function (jqXHR) {
-      errorCallBack(jqXHR.status);
-    },
-  });
+function VERIFY(data ,successCallBack ,errorCallBack){
+    $.ajax({
+        url: baseUrl + "/accounts/verify?id="+data.Id + "&code="+data.code,
+        type: 'GET',
+        data: JSON.stringify(data),
+        success: (data) => { successCallBack(data) },
+        error: function (jqXHR) { errorCallBack(jqXHR.status) }
+    });
 }
