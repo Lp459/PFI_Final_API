@@ -1,4 +1,4 @@
-const User = require("../../../models/user");
+//const User = require("../../../models/user");
 
 const apiBaseURL = "http://localhost:5000/api/images";
 const baseUrl = "http://localhost:5000";
