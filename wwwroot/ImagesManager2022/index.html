@@ -396,6 +396,12 @@
                 }
                 return false;   
             }
+            function VerifyPasswords() {
+                let password = $("Password_input").val();
+                let confirmedPassword = $("ConfirmedPassword_input").val();
+
+                return password === confirmedPassword;
+            }
             function UserConnected(token){
                 loggedIn = true;
                 if(verified){
@@ -535,7 +541,7 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = inscriptionFromForm();
-                            if(user){
+                            if(user && VerifyPasswords()){
                                 REGISTER(user ,OpenDialogVerifyCodeEmail , error)
                                 $(".scrollContainer").scrollTop(0);
    
