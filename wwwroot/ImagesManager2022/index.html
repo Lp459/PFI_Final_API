@@ -385,7 +385,7 @@
                 return false;
             }
             function inscriptionFromForm(){
-                if ($("#inscriptionForm")[0].checkValidity()) {
+                if ($("#inscriptionForm")[0].checkValidity() && VerifyPasswords()) {
                     let user = {
                         Id: parseInt($("#UserId_input").val()),
                         Name: $("#Name_input").val(),
@@ -546,7 +546,7 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = inscriptionFromForm();
-                            if(user && VerifyPasswords()){
+                            if(user){
                                 REGISTER(user ,OpenDialogVerifyCodeEmail , error)
                                 $(".scrollContainer").scrollTop(0);
    
