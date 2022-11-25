@@ -155,4 +155,5 @@ function VERIFY(data, successCallBack, errorCallBack) {
 
 function SetConnectedUserInfo(user) {
   window.localStorage.setItem("connectedUser", user);
+  return user.verified;
 }
