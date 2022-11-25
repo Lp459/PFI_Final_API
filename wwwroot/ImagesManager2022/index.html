@@ -114,6 +114,7 @@
                         <label for="Password_input">Password</label>
                         <input type="password" id="Password_input" class="form-control" required></input>
                         <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
+                        <p id="ConfirmedPassword" class="form-control">
                        
                         <label for="imageUser">Image</label>
                         <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
@@ -385,7 +386,7 @@
                 return false;
             }
             function inscriptionFromForm(){
-                if ($("#inscriptionForm")[0].checkValidity() && VerifyPasswords()) {
+                if ($("#inscriptionForm")[0].checkValidity()) {
                     let user = {
                         Id: parseInt($("#UserId_input").val()),
                         Name: $("#Name_input").val(),
@@ -405,7 +406,11 @@
                 let password = $("Password_input").val();
                 let confirmedPassword = $("ConfirmedPassword_input").val();
 
-                return password === confirmedPassword;
+                if(password === confirmedPassword) {
+                    $("#ConfirmedPassword").html("Passwords matching").css("color", "green");
+                } else {
+                    $("#ConfirmedPassword").html("Passwords don't match").css("color", "red");
+                }
             }
             function UserConnected(token){
                 loggedIn = true;
@@ -450,6 +455,8 @@
                 $("#connexionCmd").click(connection)
                 $("#inscriptionCmd").click(inscription)
                 $("#deconnexionCmd").click(deconnexion)
+                $("#Password_input").onfocusout(VerifyPasswords)
+                $("#ConfirmPassword_input").onfocusout(VerifyPasswords)
 
 
                 $("#imageDlg").dialog({
