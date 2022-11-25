@@ -30,6 +30,19 @@ function GET_ID(id, successCallBack, errorCallBack) {
     },
   });
 }
+function GET_USER_ID(id, successCallBack, errorCallBack) {
+  $.ajax({
+    url: baseUrl + `/accounts/index?id=${id}`,
+    type: "GET",
+    success: (data) => {
+      SetConnectedUserInfo(data);
+      successCallBack(data);
+    },
+    error: function (jqXHR) {
+      errorCallBack(jqXHR.status);
+    },
+  });
+}
 function GET_ALL(successCallBack, errorCallBack, queryString = null) {
   let url = apiBaseURL + (queryString ? queryString : "");
   $.ajax({
@@ -100,7 +113,7 @@ function LOGIN(data, successCallBack, errorCallBack) {
 function LOGOUT(data, successCallBack, errorCallBack) {
   $.ajax({
     url: baseUrl + `/logout?userId=${data.id}`,
-    type: "POST",
+    type: "GET",
     contentType: "application/json",
     data: JSON.stringify(data),
     success: (data) => {
@@ -126,12 +139,20 @@ function REGISTER(data, successCallBack, errorCallBack) {
   });
 }
 //verify?id=...&code=.....
-function VERIFY(data ,successCallBack ,errorCallBack){
-    $.ajax({
-        url: baseUrl + "/accounts/verify?id="+data.Id + "&code="+data.code,
-        type: 'GET',
-        data: JSON.stringify(data),
-        success: (data) => { successCallBack(data) },
-        error: function (jqXHR) { errorCallBack(jqXHR.status) }
-    });
+function VERIFY(data, successCallBack, errorCallBack) {
+  $.ajax({
+    url: baseUrl + "/accounts/verify?id=" + data.Id + "&code=" + data.code,
+    type: "GET",
+    data: JSON.stringify(data),
+    success: (data) => {
+      successCallBack(data);
+    },
+    error: function (jqXHR) {
+      errorCallBack(jqXHR.status);
+    },
+  });
+}
+
+function SetConnectedUserInfo(user) {
+  window.localStorage.setItem("connectedUser", user);
 }
