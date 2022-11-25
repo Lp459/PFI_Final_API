@@ -32,10 +32,10 @@ function GET_ID(id, successCallBack, errorCallBack) {
 }
 function GET_USER(id, successCallBack, errorCallBack) {
   $.ajax({
-    url: baseUrl + `/accounts/index?id=${id}`,
+    url: baseUrl + `/accounts/index/${id}`,
     type: "GET",
     success: (data) => {
-      SetConnectedUserInfo(data);
+      StoreConnectedUserInfo(data);
       successCallBack(data);
     },
     error: function (jqXHR) {
@@ -153,6 +153,6 @@ function VERIFY(data, successCallBack, errorCallBack) {
   });
 }
 
-function SetConnectedUserInfo(user) {
-  window.localStorage.setItem("connectedUser", user);
+function StoreConnectedUserInfo(user) {
+  window.localStorage.setItem("userConnected", JSON.stringify(user));
 }

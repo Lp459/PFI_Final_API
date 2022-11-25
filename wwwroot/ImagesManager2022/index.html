@@ -418,13 +418,17 @@
                 if(verified){
                     userId = token.userId;
                     $("userName").html(token.userName);
-                    GET_USER_ID(userId , AfficherAvatar , error);
+                    GET_USER(userId , AfficherAvatar , error);
                 }
                 else{
                     OpenDialogVerifyCodeEmail();
                 }
                 
                 //modifier son profil donc afficher avatar et nom
+            }
+            function ShowUserInfos() {
+                let userInfos = JSON.parse(window.localStorage.getItem('connectedUser'));
+                
             }
             function AfficherAvatar(){
                 
