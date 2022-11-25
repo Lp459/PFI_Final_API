@@ -113,6 +113,7 @@
                         <input type="email" id="Email_input" class="form-control" required></input>
                         <label for="Password_input">Password</label>
                         <input type="password" id="Password_input" class="form-control" required></input>
+                        <label for="ConfirmPassword_input">Confirm password</label>
                         <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
                         <p id="ConfirmedPassword" class="form-control">
                        
@@ -403,13 +404,16 @@
                 return false;   
             }
             function VerifyPasswords() {
-                let password = $("Password_input").val();
-                let confirmedPassword = $("ConfirmedPassword_input").val();
-
+                let password = $("#Password_input").val();
+                let confirmedPassword = $("#ConfirmPassword_input").val();
+                console.log(password);
+                console.log(confirmedPassword);
                 if(password === confirmedPassword) {
                     $("#ConfirmedPassword").html("Passwords matching").css("color", "green");
+                    return true;
                 } else {
                     $("#ConfirmedPassword").html("Passwords don't match").css("color", "red");
+                    return false;
                 }
             }
             function UserConnected(token){
@@ -455,8 +459,8 @@
                 $("#connexionCmd").click(connection)
                 $("#inscriptionCmd").click(inscription)
                 $("#deconnexionCmd").click(deconnexion)
-                $("#Password_input").onfocusout(VerifyPasswords)
-                $("#ConfirmPassword_input").onfocusout(VerifyPasswords)
+                $("#Password_input").blur(VerifyPasswords)
+                $("#ConfirmPassword_input").blur(VerifyPasswords)
 
 
                 $("#imageDlg").dialog({
