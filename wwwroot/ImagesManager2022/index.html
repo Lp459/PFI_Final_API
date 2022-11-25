@@ -416,9 +416,9 @@
             function UserConnected(token){
                 verified = true;
                 loggedIn = true;
-                    userId = token.userId;
-                    $("userName").html(token.userName);
-                    GET_USER(userId , AfficherAvatar , error);
+                userId = token.UserId;
+                $("userName").html(token.UserName);
+                GET_USER(userId , AfficherAvatar , error);
                 //modifier son profil donc afficher avatar et nom
             }
 

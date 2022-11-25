@@ -32,7 +32,7 @@ function GET_ID(id, successCallBack, errorCallBack) {
 }
 function GET_USER(id, successCallBack, errorCallBack) {
   $.ajax({
-    url: baseUrl + `/accounts/index?id=${id}`,
+    url: baseUrl + `/accounts/index/id${id}`,
     type: "GET",
     success: (data) => {
       SetConnectedUserInfo(data);
