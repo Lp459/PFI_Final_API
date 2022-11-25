@@ -35,8 +35,8 @@ function GET_USER(id, successCallBack, errorCallBack) {
     url: baseUrl + `/accounts/index/${id}`,
     type: "GET",
     success: (data) => {
-      StoreConnectedUserInfo(data);
-      successCallBack(data);
+        SetConnectedUserInfo(data);
+        successCallBack(data);
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);
@@ -112,10 +112,8 @@ function LOGIN(data, successCallBack, errorCallBack) {
 }
 function LOGOUT(data, successCallBack, errorCallBack) {
   $.ajax({
-    url: baseUrl + `/logout?userId=${data.id}`,
+    url: baseUrl + `/accounts/logout/${data}`,
     type: "GET",
-    contentType: "application/json",
-    data: JSON.stringify(data),
     success: (data) => {
       successCallBack(data);
     },
@@ -154,5 +152,5 @@ function VERIFY(data, successCallBack, errorCallBack) {
 }
 
 function SetConnectedUserInfo(user) {
-  window.localStorage.setItem("connectedUser", user);
+  window.localStorage.setItem("connectedUser", JSON.stringify(user));
 }

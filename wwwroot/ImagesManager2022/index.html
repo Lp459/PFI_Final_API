@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="profilAndLogout">
-                    <span id="avatar" class="avatar">Image Ici</span>
+                    <img src="" id="avatar" class="avatar">
                     <span id="userName" class="userName">user name ici</span>
                     <span class="cmd fas fa-sign-out-alt" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
                 </div>
@@ -449,20 +449,20 @@
             function Initialiser_UI_Login()
             {
 
-                $("#connectionCmd").show();
+                $("#connexionCmd").show();
                 $("#inscriptionCmd").show();
                 $("#avatar").hide();
                 $("#deconnexionCmd").hide();
                 $("#userName").hide();
             }
             function AfficherAvatar(user){
-                if(user.verified){
-                    var userInfo = JSON.parse(window.localStorage.getItem('userConnected'));
-                    $("#avatar").attr("src", userInfo.AvatarURL).show();
-                    $("#connectionCmd").hide();
+                if(user.VerifyCode == "verified"){
+                    //var userInfo = JSON.parse(window.localStorage.getItem('userConnected'));
+                    $("#avatar").attr("src", user.AvatarURL).show();
+                    $("#connexionCmd").hide();
                     $("#inscriptionCmd").hide();
                     $("#deconnexionCmd").show();
-                    $("#userName").text(userInfo.Name).show();
+                    $("#userName").text(user.Name).show();
                 }
                 else{
                     OpenDialogVerifyCodeEmail(user);
@@ -694,10 +694,11 @@
                         click: function () {
                             holdCheckETag = false;
                             imageIdToDelete = 0;
-                            if(userId != null){
-                                //pt mettre une fonction successcallback qui reset le client a cause du logout
-                                LOGOUT(userId, getImagesList, error)
-                            }
+                            let user = JSON.parse(window.localStorage.getItem("connectedUser"));
+                            //pt mettre une fonction successcallback qui reset le client a cause du logout
+                            LOGOUT(userId, Initialiser_UI_Login, error);
+                            $(this).dialog("close");
+                            
                         }
                     },
                     {
