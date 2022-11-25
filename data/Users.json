@@ -35,5 +35,14 @@
     "AvatarGUID": "6995d8a0-6515-11ed-b735-0d771b61f51d",
     "Created": 1668537816,
     "VerifyCode": 690351
+  },
+  {
+    "Id": 5,
+    "Name": "lpr4",
+    "Email": "knapsak18.boss@gmail.com",
+    "Password": "123",
+    "AvatarGUID": "0b1ef510-6cfc-11ed-af17-6b4e5f4339fc",
+    "Created": 1669406529,
+    "VerifyCode": "verified"
   }
 ]

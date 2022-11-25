@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--JSON stringyfi JSON parse pour local storage garder le mot de passe et email en memoir-->
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -175,8 +175,8 @@
             let appendCount = 3;
             let previousScrollPosition = 0;
             let appendMode = false;
-            const verified = false;
-            const loggedIn = false;
+            let verified = false;
+            let loggedIn = false;
             let userId = 0;
 
             init_UI();
@@ -425,10 +425,11 @@
                 
                 //modifier son profil donc afficher avatar et nom
             }
-            function OpenDialogVerifyCodeEmail(){
+            function OpenDialogVerifyCodeEmail(data){
                 //ouvrir verify Dialog 
                 holdCheckETag = true;
                 createMode = true;
+                $("#UserIdConfirm_input").val(data.Id);
                 $("#confirmEmailDlg").dialog('option', 'title', "Verify");
                 $("#confirmEmailDlgOkBtn").text("Verify Code");
                 $("#confirmEmailDlg").dialog('open');
