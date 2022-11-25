@@ -414,24 +414,18 @@
                 }
             }
             function UserConnected(token){
+                verified = true;
                 loggedIn = true;
-                if(verified){
                     userId = token.userId;
                     $("userName").html(token.userName);
-                    GET_USER(userId , AfficherAvatar , error);
-                }
-                else{
+                    GET_USER_ID(userId , AfficherAvatar , error);
+                    
+                
+            
                     OpenDialogVerifyCodeEmail();
-                }
                 
+            
                 //modifier son profil donc afficher avatar et nom
-            }
-            function ShowUserInfos() {
-                let userInfos = JSON.parse(window.localStorage.getItem('connectedUser'));
-                
-            }
-            function AfficherAvatar(){
-                
             }
             function OpenDialogVerifyCodeEmail(data){
                 //ouvrir verify Dialog 
@@ -458,15 +452,40 @@
                 }
                 return false;   
             }
+            function Initialiser_UI_Login()
+            {
 
+                $("#connectionCmd").show();
+                $("#inscriptionCmd").show();
+                $("#avatar").hide();
+                $("#deconnexionCmd").hide();
+                $("#userName").hide();
+            }
+            function AfficherAvatar(user){
+                if(user.verified){
+                    var userInfo = JSON.parse(window.localStorage.getItem('userConnected'));
+                    $("#avatar").attr("src", userInfo.AvatarURL).show();
+                    $("#connectionCmd").hide();
+                    $("#inscriptionCmd").hide();
+                    $("#deconnexionCmd").show();
+                    $("#userName").text(userInfo.Name).show();
+                }
+                else{
+                    OpenDialogVerifyCodeEmail(user);
+                }
+                
+            }
 
             function init_UI() {
-                $("#newImageCmd").click(newImage)
-                $("#connexionCmd").click(connection)
-                $("#inscriptionCmd").click(inscription)
-                $("#deconnexionCmd").click(deconnexion)
-                $("#Password_input").blur(VerifyPasswords)
-                $("#ConfirmPassword_input").blur(VerifyPasswords)
+                $("#newImageCmd").click(newImage);
+                $("#connexionCmd").click(connection);
+                $("#inscriptionCmd").click(inscription);
+                $("#deconnexionCmd").click(deconnexion);
+                $("#Password_input").blur(VerifyPasswords);
+                $("#ConfirmPassword_input").blur(VerifyPasswords);
+
+                //hide avatar and logout
+                Initialiser_UI_Login();
 
 
                 $("#imageDlg").dialog({

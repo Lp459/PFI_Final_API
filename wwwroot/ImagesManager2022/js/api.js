@@ -153,6 +153,6 @@ function VERIFY(data, successCallBack, errorCallBack) {
   });
 }
 
-function StoreConnectedUserInfo(user) {
-  window.localStorage.setItem("userConnected", JSON.stringify(user));
+function SetConnectedUserInfo(user) {
+  window.localStorage.setItem("connectedUser", user);
 }
