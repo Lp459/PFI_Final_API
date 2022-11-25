@@ -417,7 +417,7 @@
                 loggedIn = true;
                 if(verified){
                     userId = token.userId;
-                    $("userName").html = token.userName;
+                    $("userName").html(token.userName);
                 }
                 else{
                     OpenDialogVerifyCodeEmail();
