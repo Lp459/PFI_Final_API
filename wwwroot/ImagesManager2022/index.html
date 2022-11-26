@@ -107,14 +107,14 @@
                         <input type="hidden" id="AvatarGUID_input" value="0">
 
                         <label for="Name_input">Name</label>
-                        <input type="text" id="Name_input" class="form-control" required></input>
+                        <input type="text" id="Name_input" class="form-control" required>
 
                         <label for="Email_input">Email</label>
-                        <input type="email" id="Email_input" class="form-control" required></input>
+                        <input type="email" id="Email_input" class="form-control" required>
                         <label for="Password_input">Password</label>
-                        <input type="password" id="Password_input" class="form-control" required></input>
+                        <input type="password" id="Password_input" class="form-control" required>
                         <label for="ConfirmPassword_input">Confirm password</label>
-                        <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
+                        <input type="password" id="ConfirmPassword_input" class="form-control" required>
                         <p id="ConfirmedPassword"></p>
                         <label for="imageUser" style="margin-top: 10px;">Avatar</label>
                         <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
@@ -127,30 +127,30 @@
                     <form id="loginForm">
                         
                         <label for="Email_input">Email</label>
-                        <input type="text" id="EmailLogin_input" class="form-control" required></input>
+                        <input type="text" id="EmailLogin_input" class="form-control" required>
                         <label for="Email_input">Password</label>
-                        <input type="text" id="PasswordLogin_input" class="form-control" required></input>
+                        <input type="text" id="PasswordLogin_input" class="form-control" required>
                        
                        
                     </form>
                 </div>
                 <div id="modificationDlg">
                     <form id="modificationForm">
-                        <input type="hidden" id="UserId_input" value="0">
-                        <input type="hidden" id="AvatarGUID_input" value="0">
+                        <input type="hidden" id="Modify_UserId_input" value="0">
+                        <input type="hidden" id="Modify_AvatarGUID_input" value="0">
 
-                        <label for="Name_input">Name</label>
-                        <input type="text" id="Name_input" class="form-control" required></input>
+                        <label for="Modify_Name_input">Name</label>
+                        <input type="text" id="Modify_Name_input" class="form-control">
 
-                        <label for="Email_input">Email</label>
-                        <input type="email" id="Email_input" class="form-control" required></input>
-                        <label for="Password_input">Password</label>
-                        <input type="password" id="Password_input" class="form-control" required></input>
-                        <label for="ConfirmPassword_input">Confirm password</label>
-                        <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
-                        <p id="ConfirmedPassword"></p>
-                        <label for="imageUser" style="margin-top: 10px;">Avatar</label>
-                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
+                        <label for="Modify_Email_input">Email</label>
+                        <input type="email" id="Modify_Email_input" class="form-control">
+                        <label for="Modify_Password_input">Password</label>
+                        <input type="password" id="Modify_Password_input" class="form-control">
+                        <label for="Modify_ConfirmPassword_input">Confirm password</label>
+                        <input type="password" id="Modify_ConfirmPassword_input" class="form-control">
+                        <p id="Modify_ConfirmedPassword"></p>
+                        <label for="Modify_imageUser" style="margin-top: 10px;">Avatar</label>
+                        <div id='Modify_imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
                        
@@ -427,12 +427,12 @@
             function ModificationFromForm(){
                 if ($("#modificationForm")[0].checkValidity()) {
                     let user = {
-                        Id: parseInt($("#UserId_input").val()),
-                        Name: $("#Name_input").val(),
-                        Email: $("#Email_input").val(),
-                        Password: $("#Password_input").val(),
-                        AvatarGUID: $("#AvatarGUID_input").val(),
-                        ImageData: ImageUploader.getImageData('imageUser'),
+                        Id: parseInt($("#Modify_UserId_input").val()),
+                        Name: $("#Modify_Name_input").val(),
+                        Email: $("#Modify_Email_input").val(),
+                        Password: $("#Modify_Password_input").val(),
+                        AvatarGUID: $("#Modify_AvatarGUID_input").val(),
+                        ImageData: ImageUploader.getImageData('Modify_imageUser'),
                         
                     };
                     return user;
@@ -449,6 +449,17 @@
                     return true;
                 } else {
                     $("#ConfirmedPassword").html("Passwords don't match").css("color", "red");
+                    return false;
+                }
+            }
+            function VerifyModifyPasswords() {
+                let password = $("#Modify_Password_input").val();
+                let confirmedPassword = $("#Modify_ConfirmPassword_input").val();
+                if(password === confirmedPassword) {
+                    $("#Modify_ConfirmedPassword").html("Passwords matching").css("color", "green");
+                    return true;
+                } else {
+                    $("#Modify_ConfirmedPassword").html("Passwords don't match").css("color", "red");
                     return false;
                 }
             }
@@ -509,13 +520,22 @@
                 
             }
 
+            function ShowUserInfo(user) {
+                $("#Name_input").val(user.Name);
+                $("#Email_input").val(user.Email);
+                $("#Password_input").val(user.Password);
+                $("#imageUser").attr("defaultimage", user.AvatarURL);
+            }
+
             function ModifyUser() {
                 console.log("ModifyUser");
+                let user = JSON.parse(localStorage.getItem('connectedUser'));
+                ShowUserInfo(user);
                 holdCheckETag = true;
                 createMode = true;
-                $("#inscriptionDlg").dialog('option', 'title', "Modification");
-                $("#inscriptionDlgOkBtn").text("Modifier");
-                $("#inscriptionDlg").dialog('open');
+                $("#modificationDlg").dialog('option', 'title', "Modification");
+                $("#modificationDlgOkBtn").text("Modifier");
+                $("#modificationDlg").dialog('open');
             }
 
             function init_UI() {
@@ -525,6 +545,8 @@
                 $("#deconnexionCmd").click(Deconnexion);
                 $("#Password_input").blur(VerifyPasswords);
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
+                $("#Modify_Password_input").blur(VerifyModifyPasswords);
+                $("#Modify_ConfirmPassword_input").blur(VerifyModifyPasswords);
                 $("#userName").click(ModifyUser);
 
                 //hide avatar and logout
@@ -698,7 +720,7 @@
                         click: function () {
                             let user = GetConfirmCodeFromForm()
                             if(user){
-                                VERIFY(user ,UserVerified , error)
+                                VERIFY(user, UserVerified , error)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
