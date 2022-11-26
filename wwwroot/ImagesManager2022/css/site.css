@@ -233,6 +233,7 @@ label {
 .userName {
     font-size: 22px;
     font-weight: 600;
+    cursor: pointer;
 }
 
 div2,

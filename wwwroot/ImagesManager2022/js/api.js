@@ -35,8 +35,8 @@ function GET_USER(id, successCallBack, errorCallBack) {
     url: baseUrl + `/accounts/index/${id}`,
     type: "GET",
     success: (data) => {
-        SetConnectedUserInfo(data);
-        successCallBack(data);
+      SetConnectedUserInfo(data);
+      successCallBack(data);
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);
@@ -122,14 +122,29 @@ function LOGOUT(data, successCallBack, errorCallBack) {
     },
   });
 }
-function REGISTER(data, successCallBack, errorCallBack) {
+function REGISTER(user, successCallBack, errorCallBack) {
   $.ajax({
     url: baseUrl + "/accounts/register",
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify(data),
-    success: (data) => {
-      successCallBack(data);
+    data: JSON.stringify(user),
+    success: (user) => {
+      successCallBack(user);
+    },
+    error: function (jqXHR) {
+      errorCallBack(jqXHR.status);
+    },
+  });
+}
+function MODIFY(user, successCallBack, errorCallBack) {
+  $.ajax({
+    url: baseUrl + "/accounts/modify",
+    type: "PUT",
+    contentType: "application/json",
+    data: JSON.stringify(user),
+    success: (user) => {
+      SetConnectedUserInfo(user);
+      successCallBack(user);
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);

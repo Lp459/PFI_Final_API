@@ -71,7 +71,7 @@
                 </div>
                 <div class="profilAndLogout">
                     <img src="" id="avatar" class="avatar">
-                    <span id="userName" class="userName">user name ici</span>
+                    <span id="userName" class="userName"></span>
                     <span class="cmd fas fa-sign-out-alt" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                         <label for="ConfirmPassword_input">Confirm password</label>
                         <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
                         <p id="ConfirmedPassword"></p>
-                        <label for="imageUser" style="margin-top: 10px;">Image</label>
+                        <label for="imageUser" style="margin-top: 10px;">Avatar</label>
                         <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
@@ -131,6 +131,28 @@
                         <label for="Email_input">Password</label>
                         <input type="text" id="PasswordLogin_input" class="form-control" required></input>
                        
+                       
+                    </form>
+                </div>
+                <div id="modificationDlg">
+                    <form id="modificationForm">
+                        <input type="hidden" id="UserId_input" value="0">
+                        <input type="hidden" id="AvatarGUID_input" value="0">
+
+                        <label for="Name_input">Name</label>
+                        <input type="text" id="Name_input" class="form-control" required></input>
+
+                        <label for="Email_input">Email</label>
+                        <input type="email" id="Email_input" class="form-control" required></input>
+                        <label for="Password_input">Password</label>
+                        <input type="password" id="Password_input" class="form-control" required></input>
+                        <label for="ConfirmPassword_input">Confirm password</label>
+                        <input type="password" id="ConfirmPassword_input" class="form-control" required></input>
+                        <p id="ConfirmedPassword"></p>
+                        <label for="imageUser" style="margin-top: 10px;">Avatar</label>
+                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
+                            waitingImage='images/writing.gif'>
+                        </div>
                        
                     </form>
                 </div>
@@ -180,17 +202,17 @@
             let userId = 0;
 
             init_UI();
-            HEAD(checkETag, error);
-            setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
+            HEAD(CheckETag, error);
+            setInterval(() => { HEAD(CheckETag, error) }, periodicRefreshPeriod * 1000);
 
-            function checkETag(ETag) {
+            function CheckETag(ETag) {
                 if (!holdCheckETag && ETag != currentETag) {
                     currentETag = ETag;
-                    getImagesList();
+                    GetImagesList();
                 }
             }
 
-            function getImagesList(refresh = true) {
+            function GetImagesList(refresh = true) {
                 appendMode = !refresh;
                 function prepareQueryString() {
                     let queryString = "";
@@ -248,8 +270,8 @@
                 $(".editCmd").off();
                 $(".deleteCmd").off();
                 $(".showMore").off();
-                $(".editCmd").click(e => { editimage(e) });
-                $(".deleteCmd").click(e => { deleteimage(e) });
+                $(".editCmd").click(e => { Editimage(e) });
+                $(".deleteCmd").click(e => { Deleteimage(e) });
 
                 $('[data-toggle="tooltip"]').tooltip();
             }
@@ -284,16 +306,16 @@
                 $("#errorDlg").dialog('open');
             }
 
-            function newImage() {
+            function NewImage() {
                 holdCheckETag = true;
                 createMode = true;
-                resetimageForm();
+                ResetImageForm();
                 ImageUploader.imageRequired('image', true);
                 $("#imageDlg").dialog('option', 'title', "Ajout d'image");
                 $("#imageDlgOkBtn").text("Ajouter");
                 $("#imageDlg").dialog('open');
             }
-            function editimage(e) {
+            function Editimage(e) {
                 holdCheckETag = true;
                 createMode = false;
                 GET_ID(e.target.getAttribute("imageid"), imageToForm, error);
@@ -303,7 +325,7 @@
                 $("#imageDlgOkBtn").text("Modifier");
                 $("#imageDlg").dialog('open');
             }
-            function deleteimage(e) {
+            function Deleteimage(e) {
                 holdCheckETag = true;
                 imageIdToDelete = e.target.getAttribute("imageid")
                 GET_ID(
@@ -318,7 +340,7 @@
                 $("#confirmDeleteDlgOkBtn").text("Effacer");
                 $("#confirmDeleteDlg").dialog('open');
             }
-            function resetimageForm() {
+            function ResetImageForm() {
                 $("#Id_input").val("0");
                 $("#GUID_input").val("");
                 $("#date_input").val(Date.now());
@@ -326,7 +348,7 @@
                 $("#description_input").val("");
                 ImageUploader.resetImage('image');
             }
-            function imageFromForm() {
+            function ImageFromForm() {
                 if ($("#imageForm")[0].checkValidity()) {
                     let image = {
                         Id: parseInt($("#Id_input").val()),
@@ -342,7 +364,7 @@
                 }
                 return false;
             }
-            function imageToForm(image) {
+            function ImageToForm(image) {
                 $("#Id_input").val(image.Id);
                 $("#GUID_input").val(image.GUID);
                 $("#date_input").val(image.Date);
@@ -351,28 +373,28 @@
                 $("#description_input").val(image.Description);
                 ImageUploader.setImage('image', image.OriginalURL);
             }
-            function connection(){
+            function Connection(){
                 holdCheckETag = true;
                 createMode = true;
                 $("#loginDlg").dialog('option', 'title', "connection");
                 $("#loginDlgOkBtn").text("Connection");
                 $("#loginDlg").dialog('open');
             }
-            function inscription(){
+            function Inscription(){
                 holdCheckETag = true;
                 createMode = true;
                 $("#inscriptionDlg").dialog('option', 'title', "Inscription");
                 $("#inscriptionDlgOkBtn").text("Inscription");
                 $("#inscriptionDlg").dialog('open');
             }
-            function deconnexion(){
+            function Deconnexion(){
                 holdCheckETag = true;
                 createMode = true;
                 $("#confirmLogOffDlg").dialog('option', 'title', "Déconnexion");
                 $("#confirmLogOffDlg").dialog('open');
                 
             }
-            function loginFromForm(){
+            function LoginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
                     let user = {
                         Email: $("#EmailLogin_input").val(),
@@ -385,7 +407,7 @@
                 }
                 return false;
             }
-            function inscriptionFromForm(){
+            function InscriptionFromForm(){
                 if ($("#inscriptionForm")[0].checkValidity()) {
                     let user = {
                         Id: parseInt($("#UserId_input").val()),
@@ -399,6 +421,23 @@
                     return user;
                 } else {
                     $("#inscriptionForm")[0].reportValidity()
+                }
+                return false;   
+            }
+            function ModificationFromForm(){
+                if ($("#modificationForm")[0].checkValidity()) {
+                    let user = {
+                        Id: parseInt($("#UserId_input").val()),
+                        Name: $("#Name_input").val(),
+                        Email: $("#Email_input").val(),
+                        Password: $("#Password_input").val(),
+                        AvatarGUID: $("#AvatarGUID_input").val(),
+                        ImageData: ImageUploader.getImageData('imageUser'),
+                        
+                    };
+                    return user;
+                } else {
+                    $("#modificationForm")[0].reportValidity()
                 }
                 return false;   
             }
@@ -421,11 +460,11 @@
                 GET_USER(userId , AfficherAvatar , error);
                 //modifier son profil donc afficher avatar et nom
             }
-            function OpenDialogVerifyCodeEmail(data){
+            function OpenDialogVerifyCodeEmail(user){
                 //ouvrir verify Dialog 
                 holdCheckETag = true;
                 createMode = true;
-                $("#UserIdConfirm_input").val(data.Id);
+                $("#UserIdConfirm_input").val(user.Id);
                 $("#confirmEmailDlg").dialog('option', 'title', "Verify");
                 $("#confirmEmailDlgOkBtn").text("Verify Code");
                 $("#confirmEmailDlg").dialog('open');
@@ -434,7 +473,7 @@
                 verified = true;
                 connection();
             }
-            function getConfirmCodeFromForm(){
+            function GetConfirmCodeFromForm(){
                 if ($("#confirmEmailForm")[0].checkValidity()) {
                     let user = {
                         Id: parseInt($("#UserIdConfirm_input").val()),
@@ -470,13 +509,23 @@
                 
             }
 
+            function ModifyUser() {
+                console.log("ModifyUser");
+                holdCheckETag = true;
+                createMode = true;
+                $("#inscriptionDlg").dialog('option', 'title', "Modification");
+                $("#inscriptionDlgOkBtn").text("Modifier");
+                $("#inscriptionDlg").dialog('open');
+            }
+
             function init_UI() {
-                $("#newImageCmd").click(newImage);
-                $("#connexionCmd").click(connection);
-                $("#inscriptionCmd").click(inscription);
-                $("#deconnexionCmd").click(deconnexion);
+                $("#newImageCmd").click(NewImage);
+                $("#connexionCmd").click(Connection);
+                $("#inscriptionCmd").click(Inscription);
+                $("#deconnexionCmd").click(Deconnexion);
                 $("#Password_input").blur(VerifyPasswords);
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
+                $("#userName").click(ModifyUser);
 
                 //hide avatar and logout
                 Initialiser_UI_Login();
@@ -499,15 +548,15 @@
                         id: "imageDlgOkBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let image = imageFromForm();
+                            let image = ImageFromForm();
                             if (image) {
                                 if (createMode) {
-                                    POST(image, getImagesList, error);
+                                    POST(image, GetImagesList, error);
                                     $(".scrollContainer").scrollTop(0);
                                 }
                                 else
-                                    PUT(image, getImagesList, error);
-                                resetimageForm();
+                                    PUT(image, GetImagesList, error);
+                                ResetImageForm();
                                 holdCheckETag = false;
                                 $(this).dialog("close");
                             }
@@ -538,7 +587,7 @@
                         id: "loginDlgOkBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let user = loginFromForm();
+                            let user = LoginFromForm();
                             if(user){
                                 LOGIN(user, UserConnected, error)
                                 $(".scrollContainer").scrollTop(0);
@@ -575,9 +624,45 @@
                         id: "inscriptionDlgOkBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let user = inscriptionFromForm();
+                            let user = InscriptionFromForm();
                             if(user){
-                                REGISTER(user ,OpenDialogVerifyCodeEmail , error)
+                                REGISTER(user, OpenDialogVerifyCodeEmail, error)
+                                $(".scrollContainer").scrollTop(0);
+   
+                            }
+                            holdCheckETag = false;
+                            $(this).dialog("close");
+                            
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
+                $("#modificationDlg").dialog({
+                    title: "Modifier",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 640,
+                    minWidth: 640,
+                    maxWidth: 640,
+                    height: 780,
+                    minHeight: 780,
+                    maxHeight: 780,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        id: "modificationDlgOkBtn",
+                        text: "Title will be changed dynamically",
+                        click: function () {
+                            let user = ModificationFromForm();
+                            if(user){
+                                MODIFY(user ,OpenDialogVerifyCodeEmail , error)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
@@ -611,7 +696,7 @@
                         id: "confirmEmailDlgOkBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let user = getConfirmCodeFromForm()
+                            let user = GetConfirmCodeFromForm()
                             if(user){
                                 VERIFY(user ,UserVerified , error)
                                 $(".scrollContainer").scrollTop(0);
@@ -646,7 +731,7 @@
                         click: function () {
                             holdCheckETag = false;
                             if (imageIdToDelete)
-                                DELETE(imageIdToDelete, getImagesList, error);
+                                DELETE(imageIdToDelete, GetImagesList, error);
                             imageIdToDelete = 0;
                             $(this).dialog("close");
                         }
@@ -712,7 +797,7 @@
                 });
                 $(".scrollContainer").scroll(function () {
                     if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
-                        getImagesList(false);
+                        GetImagesList(false);
                     }
                 });
             }
