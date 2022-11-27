@@ -600,7 +600,7 @@
                                 MODIFY(user, GetImagesList , error)
                                 $(".scrollContainer").scrollTop(0);
                             }
-                            if(user){
+                            if(user && !verified){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error)
                                 $(".scrollContainer").scrollTop(0);
    
