@@ -134,28 +134,6 @@
                        
                     </form>
                 </div>
-                <div id="modificationDlg">
-                    <form id="modificationForm">
-                        <input type="hidden" id="Modify_UserId_input" value="0">
-                        <input type="hidden" id="Modify_AvatarGUID_input" value="0">
-
-                        <label for="Modify_Name_input">Name</label>
-                        <input type="text" id="Modify_Name_input" class="form-control">
-
-                        <label for="Modify_Email_input">Email</label>
-                        <input type="email" id="Modify_Email_input" class="form-control">
-                        <label for="Modify_Password_input">Password</label>
-                        <input type="password" id="Modify_Password_input" class="form-control">
-                        <label for="Modify_ConfirmPassword_input">Confirm password</label>
-                        <input type="password" id="Modify_ConfirmPassword_input" class="form-control">
-                        <p id="Modify_ConfirmedPassword"></p>
-                        <label for="Modify_imageUser" style="margin-top: 10px;">Avatar</label>
-                        <div id='Modify_imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
-                            waitingImage='images/writing.gif'>
-                        </div>
-                       
-                    </form>
-                </div>
                 <div id="confirmDeleteDlg">
                     <span id="confirmationMessage"></span>
                 </div>
@@ -424,23 +402,6 @@
                 }
                 return false;   
             }
-            function ModificationFromForm(){
-                if ($("#modificationForm")[0].checkValidity()) {
-                    let user = {
-                        Id: parseInt($("#Modify_UserId_input").val()),
-                        Name: $("#Modify_Name_input").val(),
-                        Email: $("#Modify_Email_input").val(),
-                        Password: $("#Modify_Password_input").val(),
-                        AvatarGUID: $("#Modify_AvatarGUID_input").val(),
-                        ImageData: ImageUploader.getImageData('Modify_imageUser'),
-                        
-                    };
-                    return user;
-                } else {
-                    $("#modificationForm")[0].reportValidity()
-                }
-                return false;   
-            }
             function VerifyPasswords() {
                 let password = $("#Password_input").val();
                 let confirmedPassword = $("#ConfirmPassword_input").val();
@@ -449,17 +410,6 @@
                     return true;
                 } else {
                     $("#ConfirmedPassword").html("Passwords don't match").css("color", "red");
-                    return false;
-                }
-            }
-            function VerifyModifyPasswords() {
-                let password = $("#Modify_Password_input").val();
-                let confirmedPassword = $("#Modify_ConfirmPassword_input").val();
-                if(password === confirmedPassword) {
-                    $("#Modify_ConfirmedPassword").html("Passwords matching").css("color", "green");
-                    return true;
-                } else {
-                    $("#Modify_ConfirmedPassword").html("Passwords don't match").css("color", "red");
                     return false;
                 }
             }
@@ -524,7 +474,8 @@
                 $("#Name_input").val(user.Name);
                 $("#Email_input").val(user.Email);
                 $("#Password_input").val(user.Password);
-                $("#imageUser").attr("defaultimage", user.AvatarURL);
+                ImageUploader.setImage('imageUser', user.AvatarURL)
+                //$("#imageUser").attr("defaultimage", user.AvatarURL);
             }
 
             function ModifyUser() {
@@ -533,9 +484,9 @@
                 ShowUserInfo(user);
                 holdCheckETag = true;
                 createMode = true;
-                $("#modificationDlg").dialog('option', 'title', "Modification");
-                $("#modificationDlgOkBtn").text("Modifier");
-                $("#modificationDlg").dialog('open');
+                $("#inscriptionDlg").dialog('option', 'title', "Modification");
+                $("#inscriptionDlgOkBtn").text("Modifier");
+                $("#inscriptionDlg").dialog('open');
             }
 
             function init_UI() {
@@ -545,8 +496,6 @@
                 $("#deconnexionCmd").click(Deconnexion);
                 $("#Password_input").blur(VerifyPasswords);
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
-                $("#Modify_Password_input").blur(VerifyModifyPasswords);
-                $("#Modify_ConfirmPassword_input").blur(VerifyModifyPasswords);
                 $("#userName").click(ModifyUser);
 
                 //hide avatar and logout
@@ -630,7 +579,7 @@
                     }]
                 });
                 $("#inscriptionDlg").dialog({
-                    title: "inscription",
+                    title: "Inscription",
                     autoOpen: false,
                     modal: true,
                     show: { effect: 'fade', speed: 400 },
@@ -647,6 +596,10 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
+                            if(user && verified) {
+                                MODIFY(user, GetImagesList , error)
+                                $(".scrollContainer").scrollTop(0);
+                            }
                             if(user){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error)
                                 $(".scrollContainer").scrollTop(0);
@@ -665,42 +618,7 @@
                         }
                     }]
                 });
-                $("#modificationDlg").dialog({
-                    title: "Modifier",
-                    autoOpen: false,
-                    modal: true,
-                    show: { effect: 'fade', speed: 400 },
-                    hide: { effect: 'fade', speed: 400 },
-                    width: 640,
-                    minWidth: 640,
-                    maxWidth: 640,
-                    height: 780,
-                    minHeight: 780,
-                    maxHeight: 780,
-                    position: { my: "top", at: "top", of: window },
-                    buttons: [{
-                        id: "modificationDlgOkBtn",
-                        text: "Title will be changed dynamically",
-                        click: function () {
-                            let user = ModificationFromForm();
-                            if(user){
-                                MODIFY(user ,OpenDialogVerifyCodeEmail , error)
-                                $(".scrollContainer").scrollTop(0);
-   
-                            }
-                            holdCheckETag = false;
-                            $(this).dialog("close");
-                            
-                        }
-                    },
-                    {
-                        text: "Annuler",
-                        click: function () {
-                            holdCheckETag = false;
-                            $(this).dialog("close");
-                        }
-                    }]
-                });
+                
                 $("#confirmEmailDlg").dialog({
                     title: "Confirmer Email",
                     autoOpen: false,
