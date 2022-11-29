@@ -103,7 +103,9 @@ function LOGIN(data, successCallBack, errorCallBack) {
     contentType: "application/json",
     data: JSON.stringify(data),
     success: (data) => {
+      StoreAcessToken(data);
       successCallBack(data);
+      
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);
@@ -115,6 +117,8 @@ function LOGOUT(data, successCallBack, errorCallBack) {
     url: baseUrl + `/accounts/logout/${data}`,
     type: "GET",
     success: (data) => {
+      EraseToken();
+      LogOutUser();
       successCallBack(data);
     },
     error: function (jqXHR) {
@@ -138,19 +142,21 @@ function REGISTER(user, successCallBack, errorCallBack) {
 }
 function MODIFY(user, successCallBack, errorCallBack) {
   $.ajax({
-    url: baseUrl + "/accounts/modify/",
+    url: baseUrl + "/accounts/modify",
     type: "PUT",
     contentType: "application/json",
     data: JSON.stringify(user),
-    success: (user) => {
-      SetConnectedUserInfo(user);
-      successCallBack(user);
+    headers: {authorization: 'Bearer ' + JSON.parse(sessionStorage.getItem('token')).Access_token},
+    success: () => {
+      
+      successCallBack();
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);
     },
   });
 }
+
 //verify?id=...&code=.....
 function VERIFY(data, successCallBack, errorCallBack) {
   $.ajax({
@@ -164,6 +170,18 @@ function VERIFY(data, successCallBack, errorCallBack) {
       errorCallBack(jqXHR.status);
     },
   });
+}
+function StoreAcessToken(token){
+  sessionStorage.setItem("token" ,  JSON.stringify(token));
+}
+function EraseToken(){
+  sessionStorage.removeItem("token");
+}
+function RetrieveConnectedUser(){
+  return JSON.parse(localStorage.getItem("connectedUser"));
+}
+function LogOutUser(){
+  localStorage.removeItem("connectedUser");
 }
 
 function SetConnectedUserInfo(user) {

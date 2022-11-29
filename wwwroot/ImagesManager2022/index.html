@@ -142,7 +142,7 @@
                         <input type="hidden" id="UserIdConfirm_input" value="0">
                         <span>Vérifier votre boîte de courriel pour un code de vérification</span>
                     <label for="code_input">Code de vérification</label>
-                        <input type="text" id="code_input" class="form-control" required></input>
+                        <input type="text" id="code_input" class="form-control" required>
                     </form>
                     
                 </div>
@@ -469,13 +469,18 @@
                 }
                 
             }
+            function modifyCallback(){
+                GET_USER(RetrieveConnectedUser().Id ,  AfficherAvatar , error);
+            }
 
             function ShowUserInfo(user) {
+                $("#UserId_input").val(user.Id);
                 $("#Name_input").val(user.Name);
                 $("#Email_input").val(user.Email);
-                $("#Password_input").val(user.Password);
+                //$("#Password_input").val(user.Password);
                 ImageUploader.setImage('imageUser', user.AvatarURL)
-                //$("#imageUser").attr("defaultimage", user.AvatarURL);
+                $("#AvatarGUID_input").val(user.AvatarGUID);
+                
             }
 
             function ModifyUser() {
@@ -597,7 +602,8 @@
                         click: function () {
                             let user = InscriptionFromForm();
                             if(user && verified) {
-                                MODIFY(user, GetImagesList , error)
+                              
+                                MODIFY(user, modifyCallback , error)
                                 $(".scrollContainer").scrollTop(0);
                             }
                             if(user && !verified){
