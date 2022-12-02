@@ -1,1 +1,48 @@
-[{"Id":1,"Name":"Nicolas Chourot","Email":"Nicolas.Chourot@clg.qc.ca","Password":"password","AvatarGUID":"8b33d000-0130-11ed-b7c1-9bbd15ec1d8c","VerifyCode":"verified","Created":1601500396},{"Id":2,"Name":"Nicolas Chourot","Email":"nicolaschourot@videotron.ca","Password":"********","Created":1666908912,"VerifyCode":"verified","AvatarGUID":"","AvatarURL":""},{"Email":"louis-philippe_rousseau@msn.com","Id":3,"Name":"Louis-Philippe Rousseau","Password":"password123","Created":1668195902,"VerifyCode":"verified","AvatarGUID":""},{"Id":4,"Name":"alex","Email":"a.carle2019@gmail.com","Password":"123","AvatarGUID":"6995d8a0-6515-11ed-b735-0d771b61f51d","Created":1668537816,"VerifyCode":690351},{"Id":5,"Name":"lpr16","Email":"knapsak18.boss@gmail.com","Password":"123","AvatarGUID":"0b1ef510-6cfc-11ed-af17-6b4e5f4339fc","Created":1669406529,"VerifyCode":"verified"}]
+[
+    {
+        "Id": 1,
+        "Name": "Nicolas Chourot",
+        "Email": "Nicolas.Chourot@clg.qc.ca",
+        "Password": "password",
+        "AvatarGUID": "8b33d000-0130-11ed-b7c1-9bbd15ec1d8c",
+        "VerifyCode": "verified",
+        "Created": 1601500396
+    },
+    {
+        "Id": 2,
+        "Name": "Nicolas Chourot",
+        "Email": "nicolaschourot@videotron.ca",
+        "Password": "********",
+        "Created": 1666908912,
+        "VerifyCode": "verified",
+        "AvatarGUID": "",
+        "AvatarURL": ""
+    },
+    {
+        "Email": "louis-philippe_rousseau@msn.com",
+        "Id": 3,
+        "Name": "Louis-Philippe Rousseau",
+        "Password": "password123",
+        "Created": 1668195902,
+        "VerifyCode": "verified",
+        "AvatarGUID": ""
+    },
+    {
+        "Id": 4,
+        "Name": "alex",
+        "Email": "a.carle2019@gmail.com",
+        "Password": "123",
+        "AvatarGUID": "6995d8a0-6515-11ed-b735-0d771b61f51d",
+        "Created": 1668537816,
+        "VerifyCode": 690351
+    },
+    {
+        "Id": 5,
+        "Name": "lpr16",
+        "Email": "knapsak18.boss@gmail.com",
+        "Password": "123",
+        "AvatarGUID": "0b1ef510-6cfc-11ed-af17-6b4e5f4339fc",
+        "Created": 1669406529,
+        "VerifyCode": "verified"
+    }
+]
