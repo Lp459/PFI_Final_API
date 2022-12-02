@@ -607,17 +607,22 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            if(user && verified) {
+                            console.log(user)
+                            console.log(verified)
+                            console.log(VerifyPasswords())
+                            if(user && verified && VerifyPasswords()) {
                                 MODIFY(user, ModifyCallback , error)
                                 $(".scrollContainer").scrollTop(0);
                             }
-                            if(user && !verified){
+                            if(user && !verified && VerifyPasswords() && user.Password != ""){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
-                            holdCheckETag = false;
-                            $(this).dialog("close");
+                            if(VerifyPasswords()) {
+                                holdCheckETag = false;
+                                $(this).dialog("close");
+                            }
                             
                         }
                     },
