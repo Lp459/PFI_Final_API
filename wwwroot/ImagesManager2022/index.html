@@ -469,7 +469,7 @@
                 }
                 
             }
-            function modifyCallback(){
+            function ModifyCallback(){
                 GET_USER(RetrieveConnectedUser().Id ,  AfficherAvatar , error);
             }
 
@@ -602,8 +602,7 @@
                         click: function () {
                             let user = InscriptionFromForm();
                             if(user && verified) {
-                              
-                                MODIFY(user, modifyCallback , error)
+                                MODIFY(user, ModifyCallback , error)
                                 $(".scrollContainer").scrollTop(0);
                             }
                             if(user && !verified){
