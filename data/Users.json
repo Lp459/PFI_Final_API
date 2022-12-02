@@ -1,1 +1,30 @@
-[{"Id":1,"Name":"Nicolas Chourot","Email":"Nicolas.Chourot@clg.qc.ca","Password":"password","AvatarGUID":"8b33d000-0130-11ed-b7c1-9bbd15ec1d8c","VerifyCode":"verified","Created":1601500396},{"Id":2,"Name":"Nicolas Chourot","Email":"nicolaschourot@videotron.ca","Password":"********","Created":1666908912,"VerifyCode":"verified","AvatarGUID":"","AvatarURL":""},{"Id":6,"Name":"aaa","Email":"louis-philippe_rousseau@msn.com","Password":"123","AvatarGUID":"38fc9830-727d-11ed-8399-83e39973fab4","Created":1670011375,"VerifyCode":"verified"}]
+[
+  {
+    "Id": 1,
+    "Name": "Nicolas Chourot",
+    "Email": "Nicolas.Chourot@clg.qc.ca",
+    "Password": "password",
+    "AvatarGUID": "8b33d000-0130-11ed-b7c1-9bbd15ec1d8c",
+    "VerifyCode": "verified",
+    "Created": 1601500396
+  },
+  {
+    "Id": 2,
+    "Name": "Nicolas Chourot",
+    "Email": "nicolaschourot@videotron.ca",
+    "Password": "********",
+    "Created": 1666908912,
+    "VerifyCode": "verified",
+    "AvatarGUID": "",
+    "AvatarURL": ""
+  },
+  {
+    "Id": 6,
+    "Name": "aaa",
+    "Email": "louis-philippe_rousseau@msn.com",
+    "Password": "123",
+    "AvatarGUID": "38fc9830-727d-11ed-8399-83e39973fab4",
+    "Created": 1670011375,
+    "VerifyCode": "verified"
+  }
+]
