@@ -98,6 +98,7 @@
                         <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
+                        <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input">
                         <div class="note">Cliquez-Déposez une image</div>
                     </form>
                 </div>
@@ -130,7 +131,7 @@
                         <input type="text" id="EmailLogin_input" class="form-control" required>
                         <label for="Email_input">Password</label>
                         <input type="text" id="PasswordLogin_input" class="form-control" required>
-                        <label for="RememberMe">se souvenir de moi</label><input type="checkbox" name="RememberMe_input" id="RememberMe_input">
+                        <label for="RememberMe">Se souvenir de moi</label><input type="checkbox" name="RememberMe_input" id="RememberMe_input">
                        
                        
                     </form>
@@ -331,11 +332,13 @@
                 if ($("#imageForm")[0].checkValidity()) {
                     let image = {
                         Id: parseInt($("#Id_input").val()),
+                        Userid: JSON.parse(localStorage.getItem('connectedUser')).Id,
                         GUID: $("#GUID_input").val(),
                         Title: $("#title_input").val(),
                         Description: $("#description_input").val(),
                         ImageData: ImageUploader.getImageData('image'),
-                        Date: parseInt($("#date_input").val())
+                        Date: parseInt($("#date_input").val()),
+                        Shared: $('#Shared_input')[0].checked
                     };
                     return image;
                 } else {
