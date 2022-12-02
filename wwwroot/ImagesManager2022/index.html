@@ -130,6 +130,7 @@
                         <input type="text" id="EmailLogin_input" class="form-control" required>
                         <label for="Email_input">Password</label>
                         <input type="text" id="PasswordLogin_input" class="form-control" required>
+                        <label for="RememberMe">se souvenir de moi</label><input type="checkbox" name="RememberMe_input" id="RememberMe_input">
                        
                        
                     </form>
@@ -354,8 +355,13 @@
             function Connection(){
                 holdCheckETag = true;
                 createMode = true;
+                connectedUserRememberMe = RetrieveConnectedUserSession();
                 $("#loginDlg").dialog('option', 'title', "connection");
                 $("#loginDlgOkBtn").text("Connection");
+                if(connectedUserRememberMe != null){
+                    $("#Email_input").text = connectedUserRememberMe.Email;
+                    $("PasswordLogin_input").text = connectedUserRememberMe.Password;
+                }
                 $("#loginDlg").dialog('open');
             }
             function Inscription(){
@@ -377,7 +383,7 @@
                     let user = {
                         Email: $("#EmailLogin_input").val(),
                         Password: $("#PasswordLogin_input").val(),
-                        
+                        Remember: $('RememberMe_input').checked
                     };
                     return user;
                 } else {

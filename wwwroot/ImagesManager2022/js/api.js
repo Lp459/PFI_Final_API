@@ -96,13 +96,16 @@ function DELETE(id, successCallBack, errorCallBack) {
     },
   });
 }
-function LOGIN(data, successCallBack, errorCallBack) {
+function LOGIN(user, successCallBack, errorCallBack) {
   $.ajax({
     url: baseUrl + "/token",
     type: "POST",
     contentType: "application/json",
-    data: JSON.stringify(data),
+    data: JSON.stringify(user),
     success: (data) => {
+      if(user.Remember){
+        StoreConnectedUserSession(user);
+      }
       StoreAcessToken(data);
       successCallBack(data);
       
@@ -173,6 +176,12 @@ function VERIFY(data, successCallBack, errorCallBack) {
 }
 function StoreAcessToken(token){
   sessionStorage.setItem("token" ,  JSON.stringify(token));
+}
+function StoreConnectedUserSession(user){
+  sessionStorage.setItem('connectedUser' , JSON.stringify(user));
+}
+function RetrieveConnectedUserSession(){
+  return JSON.parse(sessionStorage.getItem("connectedUser"));
 }
 function EraseToken(){
   sessionStorage.removeItem("token");
