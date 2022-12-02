@@ -607,9 +607,6 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            console.log(user)
-                            console.log(verified)
-                            console.log(VerifyPasswords())
                             if(user && verified && VerifyPasswords()) {
                                 MODIFY(user, ModifyCallback , error)
                                 $(".scrollContainer").scrollTop(0);
