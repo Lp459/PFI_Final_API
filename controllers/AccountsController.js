@@ -4,6 +4,7 @@ const TokenManager = require('../tokenManager');
 const utilities = require("../utilities");
 const Gmail = require("../gmail");
 
+
 module.exports =
     class AccountsController extends require('./Controller') {
         constructor(HttpContext,) {
@@ -42,6 +43,7 @@ module.exports =
         logout(userId) {
             TokenManager.logout(userId);
             this.HttpContext.response.accepted();
+            
         }
 
         sendVerificationEmail(user) {
@@ -137,4 +139,6 @@ module.exports =
         remove(id) { // warning! this is not an API endpoint
             super.remove(id);
         }
+        
     }
+    
