@@ -457,7 +457,7 @@
             }
             function Initialiser_UI_Login()
             {
-
+                $("#desinscriptionDlgBtn").hide()
                 $("#connexionCmd").show();
                 $("#inscriptionCmd").show();
                 $("#avatar").hide();
@@ -500,6 +500,7 @@
                 createMode = true;
                 $("#inscriptionDlg").dialog('option', 'title', "Modification");
                 $("#inscriptionDlgOkBtn").text("Modifier");
+                $("#desinscriptionDlgBtn").text("Désinscrire");
                 $("#inscriptionDlg").dialog('open');
             }
 
@@ -606,6 +607,15 @@
                     maxHeight: 780,
                     position: { my: "top", at: "top", of: window },
                     buttons: [{
+                        id: "desinscriptionDlgBtn",
+                        text: "Title will be changed dynamically",
+                        click: function () {
+                            let userId = JSON.parse(localStorage.getItem('connectedUser'));
+                            REMOVE(userId, Initialiser_UI_Login , error)
+                            $(".scrollContainer").scrollTop(0);
+                        }
+                    },
+                    {
                         id: "inscriptionDlgOkBtn",
                         text: "Title will be changed dynamically",
                         click: function () {

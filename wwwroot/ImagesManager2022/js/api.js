@@ -103,12 +103,11 @@ function LOGIN(user, successCallBack, errorCallBack) {
     contentType: "application/json",
     data: JSON.stringify(user),
     success: (data) => {
-      if(user.Remember){
+      if (user.Remember) {
         StoreConnectedUserSession(user);
       }
       StoreAcessToken(data);
       successCallBack(data);
-      
     },
     error: function (jqXHR) {
       errorCallBack(jqXHR.status);
@@ -149,9 +148,11 @@ function MODIFY(user, successCallBack, errorCallBack) {
     type: "PUT",
     contentType: "application/json",
     data: JSON.stringify(user),
-    headers: {authorization: 'Bearer ' + JSON.parse(sessionStorage.getItem('token')).Access_token},
+    headers: {
+      authorization:
+        "Bearer " + JSON.parse(sessionStorage.getItem("token")).Access_token,
+    },
     success: () => {
-      
       successCallBack();
     },
     error: function (jqXHR) {
@@ -174,22 +175,36 @@ function VERIFY(data, successCallBack, errorCallBack) {
     },
   });
 }
-function StoreAcessToken(token){
-  sessionStorage.setItem("token" ,  JSON.stringify(token));
+// GET:account/remove/id
+function REMOVE(UserId, successCallBack, errorCallBack) {
+  $.ajax({
+    url: baseUrl + `/accounts/remove/${UserId}`,
+    type: "GET",
+    data: JSON.stringify(data),
+    success: (data) => {
+      successCallBack(data);
+    },
+    error: function (jqXHR) {
+      errorCallBack(jqXHR.status);
+    },
+  });
 }
-function StoreConnectedUserSession(user){
-  sessionStorage.setItem('connectedUser' , JSON.stringify(user));
+function StoreAcessToken(token) {
+  sessionStorage.setItem("token", JSON.stringify(token));
 }
-function RetrieveConnectedUserSession(){
+function StoreConnectedUserSession(user) {
+  sessionStorage.setItem("connectedUser", JSON.stringify(user));
+}
+function RetrieveConnectedUserSession() {
   return JSON.parse(sessionStorage.getItem("connectedUser"));
 }
-function EraseToken(){
+function EraseToken() {
   sessionStorage.removeItem("token");
 }
-function RetrieveConnectedUser(){
+function RetrieveConnectedUser() {
   return JSON.parse(localStorage.getItem("connectedUser"));
 }
-function LogOutUser(){
+function LogOutUser() {
   localStorage.removeItem("connectedUser");
 }
 
