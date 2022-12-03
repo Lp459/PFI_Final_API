@@ -370,6 +370,7 @@
             function Inscription(){
                 holdCheckETag = true;
                 createMode = true;
+                $("#desinscriptionDlgBtn").hide();
                 $("#inscriptionDlg").dialog('option', 'title', "Inscription");
                 $("#inscriptionDlgOkBtn").text("Inscription");
                 $("#inscriptionDlg").dialog('open');
@@ -457,7 +458,6 @@
             }
             function Initialiser_UI_Login()
             {
-                $("#desinscriptionDlgBtn").hide()
                 $("#connexionCmd").show();
                 $("#inscriptionCmd").show();
                 $("#avatar").hide();
@@ -493,8 +493,8 @@
             }
 
             function ModifyUser() {
-                console.log("ModifyUser");
                 let user = JSON.parse(localStorage.getItem('connectedUser'));
+                $("#desinscriptionDlgBtn").show();
                 ShowUserInfo(user);
                 holdCheckETag = true;
                 createMode = true;
@@ -502,6 +502,11 @@
                 $("#inscriptionDlgOkBtn").text("Modifier");
                 $("#desinscriptionDlgBtn").text("Désinscrire");
                 $("#inscriptionDlg").dialog('open');
+            }
+
+            function RemoveCallback() {
+                $("#inscriptionDlg").dialog('close');
+                Initialiser_UI_Login();
             }
 
             function init_UI() {
@@ -610,8 +615,8 @@
                         id: "desinscriptionDlgBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let userId = JSON.parse(localStorage.getItem('connectedUser'));
-                            REMOVE(userId, Initialiser_UI_Login , error)
+                            let userId = JSON.parse(localStorage.getItem('connectedUser')).Id;
+                            REMOVE(userId, RemoveCallback , error)
                             $(".scrollContainer").scrollTop(0);
                         }
                     },

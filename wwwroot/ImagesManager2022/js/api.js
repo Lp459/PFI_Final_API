@@ -149,8 +149,7 @@ function MODIFY(user, successCallBack, errorCallBack) {
     contentType: "application/json",
     data: JSON.stringify(user),
     headers: {
-      authorization:
-        "Bearer " + JSON.parse(sessionStorage.getItem("token")).Access_token,
+      authorization: "Bearer " + GetAccessToken(),
     },
     success: () => {
       successCallBack();
@@ -180,7 +179,10 @@ function REMOVE(UserId, successCallBack, errorCallBack) {
   $.ajax({
     url: baseUrl + `/accounts/remove/${UserId}`,
     type: "GET",
-    data: JSON.stringify(data),
+    data: JSON.stringify(UserId),
+    headers: {
+      authorization: "Bearer " + GetAccessToken(),
+    },
     success: (data) => {
       successCallBack(data);
     },
@@ -191,6 +193,9 @@ function REMOVE(UserId, successCallBack, errorCallBack) {
 }
 function StoreAcessToken(token) {
   sessionStorage.setItem("token", JSON.stringify(token));
+}
+function GetAccessToken() {
+  return JSON.parse(sessionStorage.getItem("token")).Access_token;
 }
 function StoreConnectedUserSession(user) {
   sessionStorage.setItem("connectedUser", JSON.stringify(user));
