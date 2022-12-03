@@ -138,7 +138,7 @@ function REGISTER(user, successCallBack, errorCallBack) {
 }
 function MODIFY(user, successCallBack, errorCallBack) {
   $.ajax({
-    url: baseUrl + "/accounts/modify/",
+    url: baseUrl + "/accounts/modify",
     type: "PUT",
     contentType: "application/json",
     data: JSON.stringify(user),
