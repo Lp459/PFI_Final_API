@@ -154,6 +154,9 @@
                 <div id="confirmLogOffDlg">
                     <span id="confirmLogOffText">Voulez-vous vraiment vous déconnecter ?</span>
                 </div>
+                <div id="confirmRemoveAccountDlg">
+                    <span id="confirmRemoveAccountText">Voulez-vous vraiment effacer votre compte ?</span>
+                </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -509,7 +512,14 @@
                 $("#inscriptionDlg").dialog('open');
             }
 
-            function RemoveCallback() {
+            function RemoveAccount() {
+                holdCheckETag = true;
+                createMode = true;
+                $("#confirmRemoveAccountDlg").dialog('option', 'title', "Supression du compte");
+                $("#confirmRemoveAccountDlg").dialog('open');
+            }
+
+            function RemoveAccountCallback() {
                 $("#inscriptionDlg").dialog('close');
                 Initialiser_UI_Login();
             }
@@ -620,9 +630,7 @@
                         id: "desinscriptionDlgBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            let userId = JSON.parse(localStorage.getItem('connectedUser')).Id;
-                            REMOVE(userId, RemoveCallback , error)
-                            $(".scrollContainer").scrollTop(0);
+                            RemoveAccount();
                         }
                     },
                     {
@@ -656,7 +664,7 @@
                 });
                 
                 $("#confirmEmailDlg").dialog({
-                    title: "Confirmer Email",
+                    title: "Confirmation du email",
                     autoOpen: false,
                     modal: true,
                     show: { effect: 'fade', speed: 400 },
@@ -741,7 +749,7 @@
                     }]
                 });
                 $("#confirmLogOffDlg").dialog({
-                    title: "ConfirmLogOff...",
+                    title: "Attention!",
                     autoOpen: false,
                     modal: true,
                     show: { effect: 'fade', speed: 400 },
@@ -750,7 +758,7 @@
                     height: 230, minHeight: 230, maxHeight: 230,
                     position: { my: "top", at: "top", of: window },
                     buttons: [{
-                        id : "ConfirmLogOffBtnOk",
+                        id : "confirmLogOffBtnOk",
                         text: "confirm",
                         click: function () {
                             holdCheckETag = false;
@@ -760,6 +768,33 @@
                             LOGOUT(userId, Initialiser_UI_Login, error);
                             $(this).dialog("close");
                             
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            imageIdToDelete = 0;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
+                $("#confirmRemoveAccountDlg").dialog({
+                    title: "Attention!",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 500, minWidth: 500, maxWidth: 500,
+                    height: 230, minHeight: 230, maxHeight: 230,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        id : "confirmRemoveAccountBtn",
+                        text: "Retire mon compte",
+                        click: function () {
+                            let userId = JSON.parse(localStorage.getItem('connectedUser')).Id;
+                            REMOVE(userId, RemoveAccountCallback , error)
+                            $(".scrollContainer").scrollTop(0);
                         }
                     },
                     {
