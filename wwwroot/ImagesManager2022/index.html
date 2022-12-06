@@ -83,7 +83,32 @@
                     <!-- filled programmatically-->
                 </div>
             </div>
+            
             <div>
+                <div id="imageInfoDlg">
+                    <form id="imageInfoForm">
+                        <input type="hidden" id="Id_input" value="0">
+                        <input type="hidden" id="date_input" value="0">
+                        <input type="hidden" id="GUID_input" value="0">
+
+                        <label for="title_input">Titre</label>
+                        <span type="text" id="title" class="form-control" ></span>
+
+                        <label for="description_input">Description</label>
+                        <textarea id="description_input" class="form-control"></textarea>
+
+                        <label for="image">Image</label>
+                        <img src="" id="image" />
+                        
+                        <label for="DateDeCreation">Date de création</label>
+                        <span type="text" id="DateDeCreation " class="form-control" ></span>
+
+                        <label for="avatar">créateur</label>
+                        <img src="" id="avatar" />
+                        <span type="text" id="nomCreateur" class="form-control"></span>
+
+                    </form>
+                </div>
                 <div id="imageDlg">
                     <form id="imageForm">
                         <input type="hidden" id="Id_input" value="0">
@@ -215,7 +240,7 @@
                 function insertIntoImageList(image) {
      
                     let user = RetrieveConnectedUser();
-       
+       // <a href="${image.OriginalURL}" target="_blank">
                     
                     if(user && user.Id == image.Userid){
                         if(image.Shared){
@@ -237,13 +262,13 @@
                                                 data-toggle="tooltip">
                                         </div>
                                     </div>
-                                    <a href="${image.OriginalURL}" target="_blank">
+                                   
                                         
                                         <div    class='image' 
+                                                onclick="OpenDialogImageInfo(${image.Id})"
                                                 style="background-image:url('${image.ThumbnailURL}')">
                                                 <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                         </div>
-                                    </a>
                                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                                 </div>
                         `)
@@ -395,6 +420,9 @@
                 $("#title_input").val(image.Title);
                 $("#description_input").val(image.Description);
                 ImageUploader.setImage('image', image.OriginalURL);
+            }
+            function ImageInfoToForm(image){
+
             }
             function Connection(){
                 holdCheckETag = true;
@@ -559,7 +587,13 @@
                 $("#inscriptionDlg").dialog('close');
                 Initialiser_UI_Login();
             }
-
+            function OpenDialogImageInfo(id){
+                holdCheckETag = true;
+                $("#imageInfoDlg").dialog('option', 'title', "Information");
+                $("#imageInfoDlgOkBtn").text("Fermer");
+                /// imageinfotoForm(image)
+                $("#imageInfoDlg").dialog('open');
+            }            
             function init_UI() {
                 $("#newImageCmd").click(NewImage);
                 $("#connexionCmd").click(Connection);
@@ -567,6 +601,7 @@
                 $("#deconnexionCmd").click(Deconnexion);
                 $("#Password_input").blur(VerifyPasswords);
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
+                $(".imageLayout").click(OpenDialogImageInfo);
                 $("#userName").click(ModifyUser);
 
                 $(".fa-search").click(e => {
@@ -618,6 +653,28 @@
                     },
                     {
                         text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
+                $("#imageInfoDlg").dialog({
+                    title: "...",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 640,
+                    minWidth: 640,
+                    maxWidth: 640,
+                    height: 780,
+                    minHeight: 780,
+                    maxHeight: 780,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        id: "imageInfoDlgOkBtn",
+                        text: "Title will be changed dynamically",
                         click: function () {
                             holdCheckETag = false;
                             $(this).dialog("close");
