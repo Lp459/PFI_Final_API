@@ -210,9 +210,10 @@
                 }
                 GET_ALL(refreshimagesList, error, prepareQueryString());
             }
+
             function refreshimagesList(images, ETag) {
                 function insertIntoImageList(image) {
-
+                    
                     $("#imagesList").append(
                         $(` 
                                 <div class='imageLayout'>
@@ -230,14 +231,18 @@
                                         </div>
                                     </div>
                                     <a href="${image.OriginalURL}" target="_blank">
+                                        
                                         <div    class='image' 
                                                 style="background-image:url('${image.ThumbnailURL}')">
+                                                <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                         </div>
                                     </a>
                                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                                 </div>
                         `)
+                    
                     );
+                    
                 }
                 currentETag = ETag;
                 previousScrollPosition = $(".scrollContainer").scrollTop();
