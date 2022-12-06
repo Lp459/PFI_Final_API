@@ -59,6 +59,8 @@
                         </span>
                         <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
                         data-toggle="tooltip"></span>
+                        <span class="cmd fa fa-search" title="Afficher/masquer la barre de recherche"
+                        data-toggle="tooltip"></span>
                     </div>
                     <div class="iconAndUserLogin">
                         <!--icon -->
@@ -171,7 +173,6 @@
             let holdCheckETag = false;
             let currentETag = "";
             let createMode = true;
-            let searchCategory = "";
             let searchTitle = "";
             let hideSearchBar = true;
             let imageIdToDelete = 0; // used by confirmDeleteDlg
@@ -527,6 +528,15 @@
                 $("#Password_input").blur(VerifyPasswords);
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
                 $("#userName").click(ModifyUser);
+
+                $(".fa-search").click(e => {
+                    hideSearchBar = !hideSearchBar;
+                    if (hideSearchBar)
+                        $("#searchBar").hide();
+                    else
+                        $("#searchBar").show();
+                    getBookmarksList();
+                })
 
                 //hide avatar and logout
                 Initialiser_UI_Login();
