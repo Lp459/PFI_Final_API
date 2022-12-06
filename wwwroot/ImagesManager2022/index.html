@@ -470,8 +470,8 @@
                 userId = token.UserId;
                 $("userName").html(token.UserName);
                 GET_USER(userId , AfficherAvatar , error);
-                GetImagesList()
-                //modifier son profil donc afficher avatar et nom
+                GetImagesList();
+                
             }
             function OpenDialogVerifyCodeEmail(user){
                 //ouvrir verify Dialog 
@@ -519,6 +519,7 @@
                 else{
                     OpenDialogVerifyCodeEmail(user);
                 }
+                GetImagesList();
                 
             }
             function ModifyCallback(){
