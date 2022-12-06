@@ -59,7 +59,7 @@
                         </span>
                         <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
                         data-toggle="tooltip"></span>
-                        <span class="cmd fa fa-search" title="Afficher/masquer la barre de recherche"
+                        <span id="afficherBarreRecherche" class="cmd fa fa-search" title="Afficher/masquer la barre de recherche"
                         data-toggle="tooltip"></span>
                     </div>
                     <div class="iconAndUserLogin">
@@ -77,7 +77,17 @@
                     <span class="cmd fas fa-sign-out-alt" id="deconnexionCmd" title="Déconnexion" data-toggle="tooltip"></span>
                 </div>
             </div>
-
+            <div id="searchBar">
+                <div class="searchBarLayout">
+                    <select id="searchUser" class="form-control">
+                        <!-- filled programmatically-->
+                    </select>
+                    <span> <!-- skip a column --> </span>
+                    <input type="search" id="searchTitleDescription" class="form-control" placeholder="Recherche d'image" />
+                    <span> <!-- skip a column --> </span>
+                    <span class="cmd fa fa-search"></span>
+                </div>
+            </div>
             <div class="scrollContainer">
                 <div id="imagesList">
                     <!-- filled programmatically-->
@@ -198,10 +208,9 @@
             let holdCheckETag = false;
             let currentETag = "";
             let createMode = true;
-            let searchTitle = "";
+            let selectedUser = "";
             let hideSearchBar = true;
             let imageIdToDelete = 0; // used by confirmDeleteDlg
-            let selectedCategory = "";
             let imagesCount = 50;
             let appendCount = 3;
             let previousScrollPosition = 0;
@@ -209,6 +218,7 @@
             let verified = false;
             let loggedIn = false;
             let userId = 0;
+            let keywordsTab = [];
 
             init_UI();
             HEAD(CheckETag, error);
@@ -231,9 +241,33 @@
                     } else {
                         queryString = `?sort=Date,desc&offset=${0}&limit=${imagesCount}`;
                     }
+
+                    if(!hideSearchBar) {
+                        selectedUser = $("#searchUser").val();
+                        let searchTitleDescription = $("#searchTitleDescription").val();
+                        if(selectedUser != "")
+                            queryString += `&Userid=${selectedUser}`;
+                        if(searchTitleDescription != "") {
+                            queryString += `&Title=*${searchTitleDescription}*&Description=*${searchTitleDescription}*`;
+                            keywordsTab.add()
+                            localStorage.setItem('datalist', searchTitleDescription)
+                        }
+                    }
                     return queryString;
                 }
                 GET_ALL(refreshimagesList, error, prepareQueryString());
+                GET_ALL(refreshUsersList, error, "?sort=Username&fields=Userid,Username");
+            }
+
+            function refreshUsersList(users) {
+                $("#searchUser").empty();
+                $("#searchUser").append("<option value=''>Toutes les utilisateurs</option>");
+                for (let user of users) {
+                    let userName = user.Username;
+                    let userId = user.Userid;
+                    let selected = (selectedUser == userName ? " selected " : "");
+                    $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
+                }
             }
 
             function refreshimagesList(images, ETag) {
@@ -604,13 +638,13 @@
                 $(".imageLayout").click(OpenDialogImageInfo);
                 $("#userName").click(ModifyUser);
 
-                $(".fa-search").click(e => {
+                $("#afficherBarreRecherche").click(e => {
                     hideSearchBar = !hideSearchBar;
                     if (hideSearchBar)
-                        $("#searchBar").hide();
+                        $("#searchBar").slideDown('slow');
                     else
-                        $("#searchBar").show();
-                    getBookmarksList();
+                        $("#searchBar").slideUp('slow');
+                    GetImagesList();
                 })
 
                 //hide avatar and logout
