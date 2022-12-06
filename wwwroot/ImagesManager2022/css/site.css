@@ -254,3 +254,18 @@ span {
     margin-left: auto;
     padding-right: 20px;
 }
+
+#searchBar {
+    padding:10px;
+    display: none;
+    margin: 5px;
+    background: linear-gradient(to bottom, white, grey);
+    border-top: 1px solid lightgray;
+}
+
+.searchBarLayout {
+    display: grid;
+    grid-template-columns: 0.5fr 40px 1fr 35px 35px 16px;
+    align-items: center;
+
+}
