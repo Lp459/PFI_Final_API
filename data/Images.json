@@ -37,11 +37,11 @@
   },
   {
     "Id": 6,
+    "Userid": 3,
     "GUID": "462171a0-50ab-11ed-ab48-f1e29f11e662",
     "Title": "Specialized Roubaix 2017",
     "Description": "Vélo de route avec suspension au guidon",
-    "Date": "1666293800927",
-    "Userid": 3,
+    "Date": 1666293800927,
     "Shared": false
   },
   {
@@ -73,12 +73,12 @@
   },
   {
     "Id": 10,
+    "Userid": 3,
     "GUID": "1d96e2c0-50af-11ed-ae75-af0cce0ebc70",
     "Title": "Paysage de montagne",
     "Description": "Paysage de montagne",
-    "Date": "1666294840326",
-    "Userid": 3,
-    "Shared": false
+    "Date": 1666294840326,
+    "Shared": true
   },
   {
     "Id": 11,

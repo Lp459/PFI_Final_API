@@ -27,11 +27,14 @@ module.exports =
                     bindedImage["OriginalURL"] = "";
                     bindedImage["ThumbnailURL"] = "";
                 }
+                
                 let usersRepository = new UsersRepository();
                 let user = usersRepository.get(image.Userid);
                 if(user != null){
                     bindedImage.Username = user.Name;
                     bindedImage.UserAvatarURL = user.AvatarURL;
+                    
+                    
                 }
                 
                 return bindedImage;
