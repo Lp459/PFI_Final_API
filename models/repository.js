@@ -171,15 +171,37 @@ class Repository {
   }
   getAll(params = null) {
     let objectsList = this.objects();
+    let tempObjectList =  []
     if (this.bindExtraDataMethod != null) {
       objectsList = this.bindExtraData(objectsList);
+    }
+    if('keywords' in params)
+    {
+        objectsList.forEach((object) => {
+
+          let stringTitleDescription = (object.Title + object.Description).toLowerCase();
+          let keywords = params.keywords.split(',');
+
+          keywords.forEach(keyword => {
+            if(stringTitleDescription.includes(keyword)){
+              tempObjectList.push(object);
+            }
+          });
+          
+
+      });
+      objectsList = tempObjectList;
+      delete params.keywords;
+      
     }
     if (params) {
       let collectionFilter = new CollectionFilter(
         objectsList,
         params,
         this.model
+
       );
+      
       return collectionFilter.get();
     }
     return objectsList;

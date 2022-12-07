@@ -80,12 +80,13 @@
             <div id="searchBar">
                 <div class="searchBarLayout">
                     <select id="searchUser" class="form-control">
+                        <option value="mes images">Mes images</option>
                         <!-- filled programmatically-->
                     </select>
                     <span> <!-- skip a column --> </span>
                     <input type="search" id="searchTitleDescription" class="form-control" placeholder="Recherche d'image" />
                     <span> <!-- skip a column --> </span>
-                    <span class="cmd fa fa-search"></span>
+                    <span id="searchCmd" class="cmd fa fa-search"></span>
                 </div>
             </div>
             <div class="scrollContainer">
@@ -242,15 +243,24 @@
                         queryString = `?sort=Date,desc&offset=${0}&limit=${imagesCount}`;
                     }
 
-                    if(!hideSearchBar) {
+                    if(hideSearchBar) {
                         selectedUser = $("#searchUser").val();
-                        let searchTitleDescription = $("#searchTitleDescription").val();
-                        if(selectedUser != "")
-                            queryString += `&Userid=${selectedUser}`;
-                        if(searchTitleDescription != "") {
-                            queryString += `&Title=*${searchTitleDescription}*&Description=*${searchTitleDescription}*`;
-                            keywordsTab.add()
-                            localStorage.setItem('datalist', searchTitleDescription)
+                        let keywords = $("#searchTitleDescription").val();
+                        if(selectedUser != ""){
+                            if(selectedUser == "mes images"){
+                                let user = RetrieveConnectedUser();
+                                queryString += `&Userid=${user.Id}`;
+                            }
+                            else{
+                                queryString += `&Userid=${selectedUser}`;
+                            }
+                            
+                        }
+                               
+                        if(keywords != "") {
+                            queryString += `&keywords=${keywords.replaceAll(" ", ",").toLowerCase()}`;
+                           // keywordsTab.add(keywords);
+                            localStorage.setItem('datalist', keywords);
                         }
                     }
                     return queryString;
@@ -627,7 +637,11 @@
                 $("#imageInfoDlgOkBtn").text("Fermer");
                 /// imageinfotoForm(image)
                 $("#imageInfoDlg").dialog('open');
-            }            
+            }         
+            function search(){
+                appendMode= false;
+                GetImagesList();
+            }   
             function init_UI() {
                 $("#newImageCmd").click(NewImage);
                 $("#connexionCmd").click(Connection);
@@ -637,7 +651,7 @@
                 $("#ConfirmPassword_input").blur(VerifyPasswords);
                 $(".imageLayout").click(OpenDialogImageInfo);
                 $("#userName").click(ModifyUser);
-
+                $("#searchCmd").click(search);
                 $("#afficherBarreRecherche").click(e => {
                     hideSearchBar = !hideSearchBar;
                     if (hideSearchBar)
