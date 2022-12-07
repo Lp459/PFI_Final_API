@@ -59,6 +59,8 @@
                         </span>
                         <span class="cmd fa fa-plus-square" id="newImageCmd" title="Ajouter un image"
                         data-toggle="tooltip"></span>
+                        <span id="sortDesc" class="cmd fa-solid fa-arrow-down-wide-short"></span>
+                        <span id="sortAsc" class="cmd fa-solid fa-arrow-up-short-wide"></span>
                         <span id="afficherBarreRecherche" class="cmd fa fa-search" title="Afficher/masquer la barre de recherche"
                         data-toggle="tooltip"></span>
                     </div>
@@ -220,6 +222,7 @@
             let loggedIn = false;
             let userId = 0;
             let keywordsTab = [];
+            let sort = true
 
             init_UI();
             HEAD(CheckETag, error);
@@ -235,12 +238,15 @@
             function GetImagesList(refresh = true) {
                 appendMode = !refresh;
                 function prepareQueryString() {
-                    let queryString = "";
+                    let queryString = "?sort=Date,desc";
+                    if(!sort){
+                        queryString = "?sort=Date,asc";
+                    }
                     if (appendMode) {
-                        queryString = `?sort=Date,desc&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
+                        queryString += `&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
                         imagesCount += appendCount;
                     } else {
-                        queryString = `?sort=Date,desc&offset=${0}&limit=${imagesCount}`;
+                        queryString += `&offset=${0}&limit=${imagesCount}`;
                     }
 
                     if(hideSearchBar) {
@@ -268,7 +274,18 @@
                 GET_ALL(refreshimagesList, error, prepareQueryString());
                 GET_ALL(refreshUsersList, error, "?sort=Username&fields=Userid,Username");
             }
-
+            function changeSort(){
+                sort = !sort;
+                if(sort){
+                    $("#sortDesc").hide();
+                    $("#sortAsc").show();
+                }
+                else{
+                    $("#sortDesc").show();
+                    $("#sortAsc").hide();
+                }
+                GetImagesList();
+            }
             function refreshUsersList(users) {
                 $("#searchUser").empty();
                 $("#searchUser").append("<option value=''>Toutes les utilisateurs</option>");
@@ -577,6 +594,7 @@
                 $("#avatar").hide();
                 $("#deconnexionCmd").hide();
                 $("#userName").hide();
+                $("#sortDesc").hide();
                 GetImagesList();
             }
             function AfficherAvatar(user){
@@ -652,6 +670,8 @@
                 $(".imageLayout").click(OpenDialogImageInfo);
                 $("#userName").click(ModifyUser);
                 $("#searchCmd").click(search);
+                $("#sortDesc").click(changeSort);
+                $("#sortAsc").click(changeSort);
                 $("#afficherBarreRecherche").click(e => {
                     hideSearchBar = !hideSearchBar;
                     if (hideSearchBar)
