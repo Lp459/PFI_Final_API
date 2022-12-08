@@ -86,7 +86,10 @@
                         <!-- filled programmatically-->
                     </select>
                     <span> <!-- skip a column --> </span>
-                    <input type="search" id="searchTitleDescription" class="form-control" placeholder="Recherche d'image" />
+                    <input list="search_history" id="searchTitleDescription" class="form-control" placeholder="Recherche d'image" />
+                    <datalist id="search_history"> 
+                    
+                    </datalist>
                     <span> <!-- skip a column --> </span>
                     <span id="searchCmd" class="cmd fa fa-search"></span>
                 </div>
@@ -104,21 +107,22 @@
                         <input type="hidden" id="date_input" value="0">
                         <input type="hidden" id="GUID_input" value="0">
 
-                        <label for="title_input">Titre</label>
-                        <span type="text" id="title" class="form-control" ></span>
+                        <label for="title_info_input">Titre</label>
+                        <input  id="title_info_input" class="form-control" readonly/>
 
-                        <label for="description_input">Description</label>
-                        <textarea id="description_input" class="form-control"></textarea>
+                        <label for="description_info_input">Description</label>
+                        <textarea id="description_info_input" class="form-control" readonly></textarea>
 
-                        <label for="image">Image</label>
-                        <img src="" id="image" />
+                        <label for="image_info">Image</label>
+                        <img src="" id="image_info" />
+                        <div id="DateDeCreation "  ></div>
                         
-                        <label for="DateDeCreation">Date de création</label>
-                        <span type="text" id="DateDeCreation " class="form-control" ></span>
+                        
 
-                        <label for="avatar">créateur</label>
-                        <img src="" id="avatar" />
-                        <span type="text" id="nomCreateur" class="form-control"></span>
+                        <label for="avatar_info">créateur</label>
+                        <img src="" id="avatar_info" />
+                        <input type="text" id="nomCreateur_info" class="form-control" readonly/>
+                        
 
                     </form>
                 </div>
@@ -212,7 +216,7 @@
             let currentETag = "";
             let createMode = true;
             let selectedUser = "";
-            let hideSearchBar = true;
+            let hideSearchBar = false;
             let imageIdToDelete = 0; // used by confirmDeleteDlg
             let imagesCount = 50;
             let appendCount = 3;
@@ -264,15 +268,44 @@
                         }
                                
                         if(keywords != "") {
+                            
                             queryString += `&keywords=${keywords.replaceAll(" ", ",").toLowerCase()}`;
+                            let tabKeywords = (keywords.replaceAll(" ", ",").toLowerCase()).split(',');
+                            UpdateDataListLocalStorage(tabKeywords);
                            // keywordsTab.add(keywords);
-                            localStorage.setItem('datalist', keywords);
+                            
                         }
                     }
                     return queryString;
                 }
                 GET_ALL(refreshimagesList, error, prepareQueryString());
                 GET_ALL(refreshUsersList, error, "?sort=Username&fields=Userid,Username");
+            }
+            function UpdateDataListLocalStorage(data){
+                let dataList = RetrieveDatalistLocalStorage();
+                let newKeyword = false;
+                if(dataList){
+                    data.forEach(element => {
+                        if(!dataList.includes(element)){
+                          dataList.push(element);
+                          newKeyword = true;
+                        }
+                      });
+                      SetDatalistLocalStorage(dataList)
+                      $("#search_history").empty();
+                    dataList.forEach(data => {
+                        $("#search_history").append($("<option>").attr('value' , data));
+                    });
+                }
+                else{
+                    SetDatalistLocalStorage([]);
+                }
+                  
+                  
+              
+              }
+            function Init_options_Datalist(){
+
             }
             function changeSort(){
                 sort = !sort;
@@ -326,7 +359,7 @@
                                    
                                         
                                         <div    class='image' 
-                                                onclick="OpenDialogImageInfo(${image.Id})"
+                                                imageid="${image.Id}" 
                                                 style="background-image:url('${image.ThumbnailURL}')">
                                                 <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                         </div>
@@ -378,6 +411,9 @@
                 $(".deleteCmd").off();
                 $(".showMore").off();
                 $(".editCmd").click(e => { Editimage(e) });
+                $(".image").click(e=>{
+                    OpenDialogImageInfo(e);
+                })
                 $(".deleteCmd").click(e => { Deleteimage(e) });
 
                 $('[data-toggle="tooltip"]').tooltip();
@@ -483,7 +519,14 @@
                 ImageUploader.setImage('image', image.OriginalURL);
             }
             function ImageInfoToForm(image){
-
+                console.log(convertToFrenchDate(parseInt(image.Date)));
+                $("#DateDeCreation").text(convertToFrenchDate(parseInt(image.Date)));
+                $("#title_info_input").val(image.Title);
+                $("#description_info_input").val(image.Description);
+                $("#image_info").attr('src' , image.OriginalURL);
+                $("#avatar_info").attr('src' , image.UserAvatarURL);
+                $("#nomCreateur_info").val(image.Username);
+                
             }
             function Connection(){
                 holdCheckETag = true;
@@ -649,8 +692,9 @@
                 $("#inscriptionDlg").dialog('close');
                 Initialiser_UI_Login();
             }
-            function OpenDialogImageInfo(id){
+            function OpenDialogImageInfo(e){
                 holdCheckETag = true;
+                GET_ID(e.target.getAttribute("imageid"), ImageInfoToForm, error);
                 $("#imageInfoDlg").dialog('option', 'title', "Information");
                 $("#imageInfoDlgOkBtn").text("Fermer");
                 /// imageinfotoForm(image)
@@ -672,6 +716,8 @@
                 $("#searchCmd").click(search);
                 $("#sortDesc").click(changeSort);
                 $("#sortAsc").click(changeSort);
+                UpdateDataListLocalStorage(RetrieveDatalistLocalStorage());
+
                 $("#afficherBarreRecherche").click(e => {
                     hideSearchBar = !hideSearchBar;
                     if (hideSearchBar)
