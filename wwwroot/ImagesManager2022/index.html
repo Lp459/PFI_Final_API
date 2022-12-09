@@ -114,13 +114,16 @@
                         <textarea id="description_info_input" class="form-control" readonly></textarea>
 
                         <label for="image_info">Image</label>
-                        <img src="" id="image_info" />
-                        <div id="DateDeCreation "  ></div>
+        
+                        <a id="lienImage" href="" target="_blank">
+                            <div    class='image2' id="image_info"
+                                                        imageid=""  
+                                                        style="background-image:url('${image.ThumbnailURL}')">
+                                                        <img src="" dara-toggle="tooltip" title="" id="avatar_info" class="avatar">
+                                                </div>
+                            <div class="imageDate2"></div>
+                        </a>
                         
-                        
-
-                        <label for="avatar_info">créateur</label>
-                        <img src="" id="avatar_info" />
                         <input type="text" id="nomCreateur_info" class="form-control" readonly/>
                         
 
@@ -377,9 +380,10 @@
                                             <div class='imageHeader'>
                                                 <div class="imageTitle">${image.Title}</div>
                                             </div>
-                                            <a href="${image.OriginalURL}" target="_blank">
+                                            
                                                 
-                                                <div    class='image' 
+                                                <div    class='image'
+                                                        imageid="${image.Id}"  
                                                         style="background-image:url('${image.ThumbnailURL}')">
                                                         <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                                 </div>
@@ -518,12 +522,14 @@
             }
             function ImageInfoToForm(image){
                 console.log(convertToFrenchDate(parseInt(image.Date)));
-                $("#DateDeCreation").text(convertToFrenchDate(parseInt(image.Date)));
+                let date = convertToFrenchDate(parseInt(image.Date))
+                $(".imageDate2").text(date);
                 $("#title_info_input").val(image.Title);
                 $("#description_info_input").val(image.Description);
-                $("#image_info").attr('src' , image.OriginalURL);
+                $("#image_info").attr('style' , `background-image:url('${image.ThumbnailURL}')`);
                 $("#avatar_info").attr('src' , image.UserAvatarURL);
                 $("#nomCreateur_info").val(image.Username);
+                $("#lienImage").attr('href', image.OriginalURL);
                 
             }
             function Connection(){
