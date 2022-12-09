@@ -136,8 +136,6 @@ module.exports = class AccountsController extends require("./Controller") {
       if (image.Userid == id) indexToDelete.push(index);
       index++;
     }
-    indexToDelete.forEach((index) => {
-      imageRepository.removeByIndex(index);
-    });
+    imageRepository.removeByIndex(indexToDelete);
   }
 };

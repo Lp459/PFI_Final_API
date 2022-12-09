@@ -614,7 +614,7 @@
             }
             function UserVerified(){
                 verified = true;
-                connection();
+                Connection();
             }
             function GetConfirmCodeFromForm(){
                 if ($("#confirmEmailForm")[0].checkValidity()) {
@@ -688,6 +688,7 @@
 
             function RemoveAccountCallback() {
                 $("#inscriptionDlg").dialog('close');
+                $("#confirmRemoveAccountDlg").dialog('close');
                 Initialiser_UI_Login();
             }
             function OpenDialogImageInfo(e){
