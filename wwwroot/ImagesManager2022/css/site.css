@@ -246,10 +246,6 @@ label {
     cursor: pointer;
 }
 
-div2,
-span {
-    border: 1px solid red;
-}
 
 #newImageCmd {
     flex-direction: row;

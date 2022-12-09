@@ -695,6 +695,7 @@
             function RemoveAccountCallback() {
                 $("#inscriptionDlg").dialog('close');
                 $("#confirmRemoveAccountDlg").dialog('close');
+                LogOutUser();
                 Initialiser_UI_Login();
             }
             function OpenDialogImageInfo(e){
