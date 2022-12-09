@@ -386,9 +386,7 @@
                                             </a>
                                             <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                                         </div>
-                                `)
-                    
-                    );
+                                `));
                         }
                        
                     }
@@ -681,7 +679,7 @@
                 $("#inscriptionDlg").dialog('open');
             }
 
-            function RemoveAccount() {
+            function OpenDialogRemoveAccount() {
                 holdCheckETag = true;
                 createMode = true;
                 $("#confirmRemoveAccountDlg").dialog('option', 'title', "Supression du compte");
@@ -849,7 +847,7 @@
                         id: "desinscriptionDlgBtn",
                         text: "Title will be changed dynamically",
                         click: function () {
-                            RemoveAccount();
+                            OpenDialogRemoveAccount();
                         }
                     },
                     {
@@ -1012,7 +1010,8 @@
                         text: "Retire mon compte",
                         click: function () {
                             let userId = JSON.parse(localStorage.getItem('connectedUser')).Id;
-                            REMOVE(userId, RemoveAccountCallback , error)
+                            REMOVE(userId, RemoveAccountCallback , error);
+                            GET_ALL(refreshimagesList, error, `?Userid=${userId}`);
                             $(".scrollContainer").scrollTop(0);
                         }
                     },
