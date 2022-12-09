@@ -984,7 +984,7 @@
                             imageIdToDelete = 0;
                             let user = JSON.parse(window.localStorage.getItem("connectedUser"));
                             //pt mettre une fonction successcallback qui reset le client a cause du logout
-                            LOGOUT(userId, Initialiser_UI_Login, error);
+                            LOGOUT(user.Id, Initialiser_UI_Login, error);
                             $(this).dialog("close");
                             
                         }

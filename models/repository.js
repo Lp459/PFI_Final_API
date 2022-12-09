@@ -175,7 +175,8 @@ class Repository {
     if (this.bindExtraDataMethod != null) {
       objectsList = this.bindExtraData(objectsList);
     }
-    if('keywords' in params)
+    if(params){
+      if('keywords' in params)
     {
         objectsList.forEach((object) => {
 
@@ -194,6 +195,8 @@ class Repository {
       delete params.keywords;
       
     }
+    }
+    
     if (params) {
       let collectionFilter = new CollectionFilter(
         objectsList,
