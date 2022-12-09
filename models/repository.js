@@ -62,14 +62,22 @@ class Repository {
         if (this.cached)
           RepositoryCachesManager.add(this.objectsName, this.objectsList);
       } catch (error) {
-        if (error.code === 'ENOENT') {
+        if (error.code === "ENOENT") {
           // file does not exist, it will be created on demand
-          console.log(clc.yellow(`Warning ${this.objectsName} repository does not exist. It will be created on demand`));
+          console.log(
+            clc.yellow(
+              `Warning ${this.objectsName} repository does not exist. It will be created on demand`
+            )
+          );
           this.objectsList = [];
         } else {
-          console.log(clc.redBright(`Error while reading ${this.objectsName} repository`));
-          console.log(clc.redBright('--------------------------------------------------'));
-          console.log((clc.red(error)));
+          console.log(
+            clc.redBright(`Error while reading ${this.objectsName} repository`)
+          );
+          console.log(
+            clc.redBright("--------------------------------------------------")
+          );
+          console.log(clc.red(error));
         }
       }
     }
@@ -166,42 +174,41 @@ class Repository {
     if (datas)
       for (let data of datas) {
         bindedDatas.push(this.bindExtraDataMethod(data));
-      };
+      }
     return bindedDatas;
   }
   getAll(params = null) {
     let objectsList = this.objects();
-    let tempObjectList =  []
+    let tempObjectList = [];
     if (this.bindExtraDataMethod != null) {
       objectsList = this.bindExtraData(objectsList);
     }
-    if('keywords' in params)
-    {
+    if (params) {
+      if ("keywords" in params) {
         objectsList.forEach((object) => {
+          let stringTitleDescription = (
+            object.Title + object.Description
+          ).toLowerCase();
+          let keywords = params.keywords.split(",");
 
-          let stringTitleDescription = (object.Title + object.Description).toLowerCase();
-          let keywords = params.keywords.split(',');
-
-          keywords.forEach(keyword => {
-            if(stringTitleDescription.includes(keyword)){
+          keywords.forEach((keyword) => {
+            if (stringTitleDescription.includes(keyword)) {
               tempObjectList.push(object);
             }
           });
-          
-
-      });
-      objectsList = tempObjectList;
-      delete params.keywords;
-      
+        });
+        objectsList = tempObjectList;
+        delete params.keywords;
+      }
     }
+
     if (params) {
       let collectionFilter = new CollectionFilter(
         objectsList,
         params,
         this.model
-
       );
-      
+
       return collectionFilter.get();
     }
     return objectsList;

@@ -216,10 +216,10 @@ function LogOutUser() {
 function SetConnectedUserInfo(user) {
   window.localStorage.setItem("connectedUser", JSON.stringify(user));
 }
-function SetDatalistLocalStorage(data){
-  localStorage.setItem('searchHistoryDataList' , JSON.stringify(data));
+function SetDatalistLocalStorage(data) {
+  localStorage.setItem("searchHistoryDataList", JSON.stringify(data));
 }
 
-function RetrieveDatalistLocalStorage(){
+function RetrieveDatalistLocalStorage() {
   return JSON.parse(localStorage.getItem("searchHistoryDataList"));
 }
