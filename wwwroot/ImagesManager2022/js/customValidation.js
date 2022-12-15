@@ -75,6 +75,6 @@ $(() => {
   $(".Name").each(function () {
     let pattern = String.raw`^[a-zA-Z]+$`;
     $(this).attr('pattern', pattern);
-    $(this).attr("onchange", "this.setCustomValidity('Votre nom ne doit pas être vide')");
+    $(this).attr("onchange", `if(this.checkValidity()) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
   })
 });
