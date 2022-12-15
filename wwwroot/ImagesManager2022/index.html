@@ -252,6 +252,10 @@
             function GetImagesList(refresh = true) {
                 appendMode = !refresh;
                 function prepareQueryString() {
+                    queryString = "?sort=Date,desc"
+                    if(!sort){
+                        queryString = "?sort=Date,asc"
+                    }
                     if(hideSearchBar) {
                         selectedUser = $("#searchUser").val();
                         let keywords = $("#searchTitleDescription").val();
@@ -277,10 +281,11 @@
                             
                         }
                     }
-                    queryString = "?sort=Date,desc" + `&Userid=${idSelectedUser}`;
-                    if(!sort){
-                        queryString = "?sort=Date,asc" + `&Userid=${idSelectedUser}`;
+                    
+                    if(selectedUser != "Toutes les utilisateurs"){
+                        queryString +=  `&Userid=${idSelectedUser}`;
                     }
+                    
                     if (appendMode) {
                         queryString += `&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
                         imagesCount += appendCount;
@@ -329,18 +334,35 @@
                 }
                 GetImagesList();
             }
+            function affichezUserList(){
+                console.log("user has images");
+            }
             function refreshUsersList(users) {
                 let userConnected = RetrieveConnectedUser();
                 $("#searchUser").empty();
-                $("#searchUser").append("<option value=''>Toutes les utilisateurs</option>");
-                $("#searchUser").append("<option value='mes images'>Mes Images</option>");
+                $("#searchUser").append("<option value='Toutes les utilisateurs'>Toutes les utilisateurs</option>");
+                if(userConnected){
+                    $("#searchUser").append("<option value='mes images'>Mes Images</option>");
+                }
+                
+                
                 for (let user of users) {
-                    if(user.Userid != userConnected.Id){
+                    let images = GET_ALL(affichezUserList , error , "?Userid=" + user.Userid );
+                    if(userConnected && images.length > 1){
+                        if(user.Userid != userConnected.Id){
+                            let userName = user.Username;
+                            let userId = user.Userid;
+                            let selected = (selectedUser == userName ? " selected " : "");
+                            $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
+                        }
+                    }
+                    else{
                         let userName = user.Username;
                         let userId = user.Userid;
                         let selected = (selectedUser == userName ? " selected " : "");
                         $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
                     }
+                    
 
                     
                 }
@@ -749,11 +771,13 @@
                 $("#sortDesc").click(changeSort);
                 $("#sortAsc").click(changeSort);
                 UpdateDataListLocalStorage(RetrieveDatalistLocalStorage());
-
+                
                 $("#afficherBarreRecherche").click(e => {
                     hideSearchBar = !hideSearchBar;
-                    if (hideSearchBar)
+                    if (hideSearchBar){
+                        
                         $("#searchBar").slideDown('slow');
+                    }
                     else
                         $("#searchBar").slideUp('slow');
                     GetImagesList();
