@@ -232,6 +232,7 @@
             let userId = 0;
             let keywordsTab = [];
             let sort = true
+            let queryString= "";
 
             init_UI();
             HEAD(CheckETag, error);
@@ -247,7 +248,7 @@
             function GetImagesList(refresh = true) {
                 appendMode = !refresh;
                 function prepareQueryString() {
-                    let queryString = "?sort=Date,desc";
+                    queryString = "?sort=Date,desc";
                     if(!sort){
                         queryString = "?sort=Date,asc";
                     }
@@ -309,9 +310,7 @@
                   
               
               }
-            function Init_options_Datalist(){
 
-            }
             function changeSort(){
                 sort = !sort;
                 if(sort){
@@ -325,13 +324,19 @@
                 GetImagesList();
             }
             function refreshUsersList(users) {
+                let userConnected = RetrieveConnectedUser();
                 $("#searchUser").empty();
                 $("#searchUser").append("<option value=''>Toutes les utilisateurs</option>");
+                $("#searchUser").append("<option value='mes images'>Mes Images</option>");
                 for (let user of users) {
-                    let userName = user.Username;
-                    let userId = user.Userid;
-                    let selected = (selectedUser == userName ? " selected " : "");
-                    $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
+                    if(user.Userid != userConnected.Id){
+                        let userName = user.Username;
+                        let userId = user.Userid;
+                        let selected = (selectedUser == userName ? " selected " : "");
+                        $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
+                    }
+
+                    
                 }
             }
 
@@ -603,7 +608,11 @@
                     return false;
                 }
             }
+            function nothing(){
+
+            }
             function UserConnected(token){
+
                 verified = true;
                 loggedIn = true;
                 userId = token.UserId;
@@ -827,11 +836,14 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = LoginFromForm();
+                            
                             if(user){
-                                LOGIN(user, UserConnected, error)
+                                
+                                LOGIN(user, UserConnected, error);
                                 $(".scrollContainer").scrollTop(0);
 
                             }
+                            
                            
                             holdCheckETag = false;
                             $(this).dialog("close");
