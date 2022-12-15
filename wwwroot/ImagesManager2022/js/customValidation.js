@@ -72,4 +72,10 @@ $(() => {
     password.attr('pattern', pattern);
     password.attr("onchange", `if(this.checkValidity()) {form.${password.attr('id')}.pattern = this.value; form.${password.attr('id')}.required=true;}`);
   })
+
+  $(".Name").each(function () {
+    let pattern = String.raw`^[a-zA-Z]+$`;
+    $(this).attr('pattern', pattern);
+    $(this).attr("onchange", `if(this.checkValidity()) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
+  })
 });
