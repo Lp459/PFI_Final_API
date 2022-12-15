@@ -52,7 +52,7 @@ $(() => {
 
   $(".MatchedPassword").each(function () {
     let password = $(this);
-    let pattern = String.raw`^\S{3,}$`;
+    let pattern = String.raw`^\S{6,}$`;
     let matchedPassword = $(`#${password.attr('matchedPasswordId')}`);
     password.attr('pattern', pattern);
     password.attr("onchange", `if(this.checkValidity()) {form.${matchedPassword.attr('id')}.pattern = this.value; form.${matchedPassword.attr('id')}.required=true;}`);
@@ -66,11 +66,7 @@ $(() => {
     input.attr("onfocus", `if(this.checkValidity()) {form.${matchedInput.attr('id')}.pattern = this.value; form.${matchedInput.attr('id')}.required=this.value!='';}`);
   })
 
-  $(".Password").each(function (){
-    $(this).attr("onchange", "if(this.value.length < 3) {this.setCustomValidity('Votre mot de passe doit contenir 3 caractères minimum')}");
-  })
-
   $(".Name").each(function () {
-    $(this).attr("onchange", `if(this.value == " " || this.value.length == 0) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
+    $(this).attr('pattern', String.raw`^[a-zA-Z]+$`);
   })
 });
