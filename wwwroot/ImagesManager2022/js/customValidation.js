@@ -67,14 +67,10 @@ $(() => {
   })
 
   $(".Password").each(function (){
-    let pattern = String.raw`^\S{3,}$`;
-    $(this).attr('pattern', pattern);
-    $(this).attr("onchange", "this.setCustomValidity('Votre mot de passe doit contenir 3 caractères minimum')");
+    $(this).attr("onchange", "if(this.value.length < 3) {this.setCustomValidity('Votre mot de passe doit contenir 3 caractères minimum')}");
   })
 
   $(".Name").each(function () {
-    let pattern = String.raw`^[a-zA-Z]+$`;
-    $(this).attr('pattern', pattern);
     $(this).attr("onchange", `if(this.value == " " || this.value.length == 0) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
   })
 });
