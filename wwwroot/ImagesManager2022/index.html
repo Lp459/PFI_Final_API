@@ -150,7 +150,7 @@
                         <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
-                        <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input" style="height: 20px; width: 20px;">
+                        <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input" class="checkbox">
                         <div class="note">Cliquez-Déposez une image</div>
                     </form>
                 </div>
@@ -180,10 +180,12 @@
                     <form id="loginForm">
                         
                         <label for="Email_input">Email</label>
-                        <input type="text" id="EmailLogin_input" class="form-control" required>
+                        <input type="text" id="EmailLogin_input" class="form-control Email" required>
                         <label for="Email_input">Password</label>
-                        <input type="text" id="PasswordLogin_input" class="form-control" required>
-                        <label for="RememberMe">Se souvenir de moi</label><input type="checkbox" name="RememberMe_input" id="RememberMe_input">
+                        <input type="text" id="PasswordLogin_input" class="form-control Password" required>
+                        <input type="checkbox" name="RememberMe_input" id="RememberMe_input" class="checkbox"><label for="RememberMe_input">Se souvenir de moi</label>
+                        <br>
+                        <p id="erreurLogin" class="erreur"></p>
                        
                        
                     </form>
@@ -312,9 +314,6 @@
                   
               
               }
-            function Init_options_Datalist(){
-
-            }
             function changeSort(){
                 sort = !sort;
                 if(sort){
@@ -543,7 +542,7 @@
                 createMode = true;
                 connectedUserRememberMe = RetrieveConnectedUserSession();
                 $("#loginDlg").dialog('option', 'title', "connection");
-                $("#loginDlgOkBtn").text("Connection");
+                $("#loginDlgOkBtn").text("Connexion");
                 if(connectedUserRememberMe != null){
                     $("#Email_input").text = connectedUserRememberMe.Email;
                     $("PasswordLogin_input").text = connectedUserRememberMe.Password;
@@ -567,6 +566,7 @@
             }
             function LoginFromForm(){
                 if ($("#loginForm")[0].checkValidity()) {
+                    console.log("Bon")
                     let user = {
                         Email: $("#EmailLogin_input").val(),
                         Password: $("#PasswordLogin_input").val(),
@@ -574,6 +574,7 @@
                     };
                     return user;
                 } else {
+                    console.log("Pas bon")
                     $("#loginForm")[0].reportValidity()
                 }
                 return false;
@@ -833,11 +834,11 @@
                             if(user){
                                 LOGIN(user, UserConnected, error)
                                 $(".scrollContainer").scrollTop(0);
-
+                                holdCheckETag = false;
+                                $(this).dialog("close");
                             }
-                           
-                            holdCheckETag = false;
-                            $(this).dialog("close");
+                            else 
+                                $("erreurLogin").html("Un des champs n'est pas valide. Réessayer")
                             
                         }
                     },

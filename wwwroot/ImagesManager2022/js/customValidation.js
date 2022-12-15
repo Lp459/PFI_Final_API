@@ -65,4 +65,11 @@ $(() => {
     input.attr("onchange", `if(this.checkValidity()) {form.${matchedInput.attr('id')}.pattern = this.value; form.${matchedInput.attr('id')}.required=true;}`);
     input.attr("onfocus", `if(this.checkValidity()) {form.${matchedInput.attr('id')}.pattern = this.value; form.${matchedInput.attr('id')}.required=this.value!='';}`);
   })
+
+  $(".Password").each(function (){
+    let password = $(this);
+    let pattern = String.raw`^\S{6,}$`;
+    password.attr('pattern', pattern);
+    password.attr("onchange", `if(this.checkValidity()) {form.${password.attr('id')}.pattern = this.value; form.${password.attr('id')}.required=true;}`);
+  })
 });
