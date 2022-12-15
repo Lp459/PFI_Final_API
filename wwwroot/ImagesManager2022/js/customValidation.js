@@ -75,6 +75,6 @@ $(() => {
   $(".Name").each(function () {
     let pattern = String.raw`^[a-zA-Z]+$`;
     $(this).attr('pattern', pattern);
-    $(this).attr("onchange", `if(this.checkValidity()) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
+    $(this).attr("onchange", `if(this.value == " " || this.value.length == 0) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
   })
 });
