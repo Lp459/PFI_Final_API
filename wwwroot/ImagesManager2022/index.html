@@ -237,7 +237,7 @@
             let sort = true
             let queryString= "";
             let idSelectedUser = "";
-
+            let nbImagesUser = "";
             init_UI();
             HEAD(CheckETag, error);
             setInterval(() => { HEAD(CheckETag, error) }, periodicRefreshPeriod * 1000);
@@ -282,7 +282,7 @@
                         }
                     }
                     
-                    if(selectedUser != "Toutes les utilisateurs"){
+                    if(selectedUser != "Toutes les utilisateurs" && idSelectedUser != ""){
                         queryString +=  `&Userid=${idSelectedUser}`;
                     }
                     
@@ -334,7 +334,8 @@
                 }
                 GetImagesList();
             }
-            function affichezUserList(){
+            function affichezUserList(images){
+                nbImagesUser = images.length;
                 console.log("user has images");
             }
             function refreshUsersList(users) {
@@ -347,19 +348,19 @@
                 
                 
                 for (let user of users) {
-                    let images = GET_ALL(affichezUserList , error , "?Userid=" + user.Userid );
-                    if(userConnected && images.length > 1){
+                    GET_ALL(affichezUserList , error , "?Userid=" + user.Userid );
+                    if(userConnected && nbImagesUser > 0){
                         if(user.Userid != userConnected.Id){
                             let userName = user.Username;
                             let userId = user.Userid;
-                            let selected = (selectedUser == userName ? " selected " : "");
+                            let selected = (idSelectedUser == userId ? " selected " : "");
                             $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
                         }
                     }
                     else{
                         let userName = user.Username;
                         let userId = user.Userid;
-                        let selected = (selectedUser == userName ? " selected " : "");
+                        let selected = (idSelectedUser == userId ? " selected " : "");
                         $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
                     }
                     
