@@ -2,11 +2,21 @@
 $(() => {
 
   $(".Email").each(function () {
+    let pattern = String.raw`^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$`
     $(this).attr(
       "pattern",
       /* https://regex-generator.olafneumann.org/ vraiment cool*/
       /* String.raw pour ne pas interpréter les "\" */
-      String.raw`^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$`
+      pattern
+    );
+
+    $(this).attr(
+      "onblur",
+      "document.getElementsByName('" +
+      $(this).attr("name") +
+      `').forEach((email) => { if(!email.value.trim().includes('@') )` +
+      `{email.setCustomValidity("Votre email doit contenir '@' pour être valide "); email.reportValidity()} ` +
+      "else {email.setCustomValidity('')} });"
     );
   });
   $(".URL").each(function () {
@@ -37,7 +47,7 @@ $(() => {
   });
 
   $("input[type='number']").each(function () {
-    $(this).attr("onchange", "this.setCustomValidity('')");
+    $(this).attr("onchange", "this.setCustomValidity('Veuillez remplir ce champ')");
   });
 
   $("input[type='radio']").each(function () {
@@ -67,6 +77,41 @@ $(() => {
   })
 
   $(".Name").each(function () {
-    $(this).attr('pattern', String.raw`^[a-zA-Z]+$`);
+    $(this).attr(
+      "onblur",
+      "document.getElementsByName('" +
+      $(this).attr("name") +
+      "').forEach((name) => {if(name.value.trim().length == 0)" +
+      "{name.setCustomValidity('Votre ne doit pas être vide'); name.reportValidity()} " +
+      "else {name.setCustomValidity('')} });"
+    );
+    /*let name = document.getElementById("Name_input");
+    let trimmedName = name.value.trim();
+    console.log(name.value);
+    console.log(trimmedName.length == 0);
+    if(trimmedName.length == 0) {
+      name.setCustomValidity('Votre nom ne doit pas être vide');
+      name.reportValidity();
+    }*/
   })
+
+  $(".Image").each(function () {
+    $(this).attr(
+      "onchange",
+      "document.getElementsByName('" +
+      $(this).attr("name") +
+      "').forEach((image) => {if(image.value.trim().length == 0)" +
+      "{image.setCustomValidity('Veuillez remplir ce champ'); image.reportValidity()} " +
+      "else {image.setCustomValidity('')} });"
+    );
+    /*let name = document.getElementById("Name_input");
+    let trimmedName = name.value.trim();
+    console.log(name.value);
+    console.log(trimmedName.length == 0);
+    if(trimmedName.length == 0) {
+      name.setCustomValidity('Votre nom ne doit pas être vide');
+      name.reportValidity();
+    }*/
+  })
+
 });

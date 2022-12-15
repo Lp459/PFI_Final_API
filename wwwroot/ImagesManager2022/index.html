@@ -147,7 +147,7 @@
                         <textarea id="description_input" class="form-control" required></textarea>
 
                         <label for="image">Image</label>
-                        <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
+                        <div id='image' name="image" class='ImageUploader Image' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
                         <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input" class="checkbox">
@@ -160,17 +160,17 @@
                         <input type="hidden" id="AvatarGUID_input" value="0">
 
                         <label for="Name_input">Nom</label>
-                        <input type="text" id="Name_input" class="form-control Name" required>
+                        <input type="text" id="Name_input" name="Name_input" class="form-control Name" required>
 
                         <label for="Email_input">Email</label>
-                        <input type="email" id="Email_input" class="form-control Email" required>
+                        <input type="email" id="Email_input" name="Email_input" class="form-control Email" required>
                         <label for="Password_input">Mot de passe</label>
                         <input type="password" id="Password_input" class="form-control">
                         <label for="ConfirmPassword_input">Confirmation du mot de passe</label>
                         <input type="password" id="ConfirmPassword_input" class="form-control">
                         <p id="ConfirmedPassword"></p>
                         <label for="imageUser" style="margin-top: 10px;">Avatar</label>
-                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
+                        <div id='imageUser' name="imageUser" class='ImageUploader Image' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif' required>
                         </div>
                        
@@ -613,6 +613,7 @@
             }
             function InscriptionFromForm(){
                 if ($("#inscriptionForm")[0].checkValidity()) {
+                    console.log("Bon");
                     let user = {
                         Id: parseInt($("#UserId_input").val()),
                         Name: $("#Name_input").val(),
@@ -624,6 +625,7 @@
                     };
                     return user;
                 } else {
+                    console.log("Pas bon");
                     $("#inscriptionForm")[0].reportValidity()
                 }
                 return false;   
@@ -631,7 +633,8 @@
             function VerifyPasswords() {
                 let password = $("#Password_input").val();
                 let confirmedPassword = $("#ConfirmPassword_input").val();
-                if(password === confirmedPassword) {
+                let estVide = $.trim(password).length == 0 || $.trim(confirmedPassword).length == 0;
+                if(password === confirmedPassword && !estVide) {
                     $("#ConfirmedPassword").html("Les mots de passe correspondent").css("color", "green");
                     return true;
                 } else {
@@ -910,18 +913,20 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            let userConnected = RetrieveConnectedUser();
-                            if(user && userConnected.VerifyCode=="verified") {
+                            if(user /*&& userConnected.VerifyCode=="verified"*/) {
                                 MODIFY(user, ModifyCallback , error)
                                 currentETag = "";
                             }
-                            else if(user && !userConnected.VerifyCode=="verified" && VerifyPasswords()){
+                            else if(user /*&& !userConnected.VerifyCode=="verified"*/ && VerifyPasswords()){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error);
                                 
                             }
-                            $(".scrollContainer").scrollTop(0);
-                            holdCheckETag = false;
-                            $(this).dialog("close");
+
+                            if(user){
+                                $(".scrollContainer").scrollTop(0);
+                                holdCheckETag = false;
+                                $(this).dialog("close");
+                            }
                         }
                     },
                     {
