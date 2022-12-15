@@ -124,9 +124,12 @@
                         </a>
                         <br>
                         <label for="avatarCreateur">Créateur</label>
-                        <br>
-                        <img src="" data-toggle="tooltip" title="" id="avatarCreateur" class="avatarCreateur">
-                        <h3 id="nomCreateur_info" style="margin-left: 30%;"></h3>
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <img src="" data-toggle="tooltip" title="" id="avatarCreateur"  class="avatarCreateur">
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <h3 id="nomCreateur_info"></h3>
+                        </div>
                         
 
                     </form>
@@ -147,7 +150,7 @@
                         <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif'>
                         </div>
-                        <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input">
+                        <label for="Shared_input">Partagé</label><input type="checkbox" name="Shared_input" id="Shared_input" style="height: 20px; width: 20px;">
                         <div class="note">Cliquez-Déposez une image</div>
                     </form>
                 </div>
