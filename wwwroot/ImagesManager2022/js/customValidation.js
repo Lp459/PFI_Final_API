@@ -68,7 +68,7 @@ $(() => {
 
   $(".Password").each(function (){
     let password = $(this);
-    let pattern = String.raw`^\S{6,}$`;
+    let pattern = String.raw`^\S{3,}$`;
     password.attr('pattern', pattern);
     password.attr("onchange", `if(this.checkValidity()) {form.${password.attr('id')}.pattern = this.value; form.${password.attr('id')}.required=true;}`);
   })
