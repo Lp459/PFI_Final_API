@@ -67,15 +67,14 @@ $(() => {
   })
 
   $(".Password").each(function (){
-    let password = $(this);
     let pattern = String.raw`^\S{3,}$`;
-    password.attr('pattern', pattern);
-    password.attr("onchange", `if(this.checkValidity()) {form.${password.attr('id')}.pattern = this.value; form.${password.attr('id')}.required=true;}`);
+    $(this).attr('pattern', pattern);
+    $(this).attr("onchange", "this.setCustomValidity('Votre mot de passe doit contenir 3 caractères minimum')");
   })
 
   $(".Name").each(function () {
     let pattern = String.raw`^[a-zA-Z]+$`;
     $(this).attr('pattern', pattern);
-    $(this).attr("onchange", `if(this.checkValidity()) {form.${$(this).attr('id')}.pattern = this.value; form.${$(this).attr('id')}.required=true;}`);
+    $(this).attr("onchange", "this.setCustomValidity('Votre nom ne doit pas être vide')");
   })
 });

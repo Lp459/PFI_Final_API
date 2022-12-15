@@ -25,5 +25,14 @@
     "AvatarGUID": "808f67c0-7c16-11ed-b8fd-49bf8173bec6",
     "Created": 1671067161,
     "VerifyCode": "verified"
+  },
+  {
+    "Id": 6,
+    "Name": "Ginette",
+    "Email": "ps4carlo2021@gmail.com",
+    "Password": "123456",
+    "AvatarGUID": "dbc0eb70-7c1e-11ed-9455-c3e1a59de932",
+    "Created": 1671070750,
+    "VerifyCode": 727200
   }
 ]
