@@ -364,8 +364,6 @@
                         $("#searchUser").append(`<option value='${userId}' ${selected}>${userName}</option>`);
                     }
                     
-
-                    
                 }
             }
 
@@ -914,7 +912,7 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            if(user && verified && VerifyPasswords()) {
+                            if(user && verified) {
                                 MODIFY(user, ModifyCallback , error)
                                 $(".scrollContainer").scrollTop(0);
                             }

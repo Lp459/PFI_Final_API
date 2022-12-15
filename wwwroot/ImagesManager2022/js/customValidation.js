@@ -52,7 +52,7 @@ $(() => {
 
   $(".MatchedPassword").each(function () {
     let password = $(this);
-    let pattern = String.raw`^\S{6,}$`;
+    let pattern = String.raw`^\S{3,}$`;
     let matchedPassword = $(`#${password.attr('matchedPasswordId')}`);
     password.attr('pattern', pattern);
     password.attr("onchange", `if(this.checkValidity()) {form.${matchedPassword.attr('id')}.pattern = this.value; form.${matchedPassword.attr('id')}.required=true;}`);
