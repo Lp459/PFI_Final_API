@@ -222,7 +222,7 @@
         <script src="js/api.js"></script>
         <script src="js/date.js"></script>
         <script defer>
-            const periodicRefreshPeriod = 15;
+            const periodicRefreshPeriod = 5;
             let holdCheckETag = false;
             let currentETag = "";
             let createMode = true;
@@ -641,9 +641,6 @@
                     return false;
                 }
             }
-            function nothing(){
-
-            }
             function UserConnected(token){
 
                 verified = true;
@@ -915,16 +912,18 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            if(user && verified) {
+                            let userConnected = RetrieveConnectedUser();
+                            if(user && userConnected.VerifyCode=="verified") {
                                 MODIFY(user, ModifyCallback , error)
-                                $(".scrollContainer").scrollTop(0);
+                                currentETag = "";
                             }
-                            if(user && !verified && VerifyPasswords()){
-                                REGISTER(user, OpenDialogVerifyCodeEmail, error)
-                                $(".scrollContainer").scrollTop(0);
-                                holdCheckETag = false;
-                                $(this).dialog("close");
+                            else if(user && !userConnected.VerifyCode=="verified" && VerifyPasswords()){
+                                REGISTER(user, OpenDialogVerifyCodeEmail, error);
+                                
                             }
+                            $(".scrollContainer").scrollTop(0);
+                            holdCheckETag = false;
+                            $(this).dialog("close");
                         }
                     },
                     {
