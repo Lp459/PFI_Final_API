@@ -118,12 +118,15 @@
                             <div    class='image2' id="image_info"
                                                         imageid=""  
                                                         style="background-image:url('${image.ThumbnailURL}')">
-                                                        <img src="" dara-toggle="tooltip" title="" id="avatar_info" class="avatar">
+                                                        <!--<img src="" data-toggle="tooltip" title="" id="avatar_info" class="avatar">-->
                                                 </div>
                             <div class="imageDate2"></div>
                         </a>
-                        
-                        <input type="text" id="nomCreateur_info" class="form-control" readonly/>
+                        <br>
+                        <label for="avatarCreateur">Créateur</label>
+                        <br>
+                        <img src="" data-toggle="tooltip" title="" id="avatarCreateur" class="avatarCreateur">
+                        <h3 id="nomCreateur_info" style="margin-left: 30%;"></h3>
                         
 
                     </form>
@@ -363,7 +366,7 @@
                                         <div    class='image' 
                                                 imageid="${image.Id}" 
                                                 style="background-image:url('${image.ThumbnailURL}')">
-                                                <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
+                                                <img src="${image.UserAvatarURL}" data-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                         </div>
                                     <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
                                 </div>
@@ -384,7 +387,7 @@
                                                 <div    class='image'
                                                         imageid="${image.Id}"  
                                                         style="background-image:url('${image.ThumbnailURL}')">
-                                                        <img src="${image.UserAvatarURL}" dara-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
+                                                        <img src="${image.UserAvatarURL}" daaa-toggle="tooltip" title=${image.Username} id="avatarImage${image.UserId}" class="avatar">
                                                 </div>
                                             </a>
                                             <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
@@ -526,8 +529,9 @@
                 $("#title_info_input").val(image.Title);
                 $("#description_info_input").val(image.Description);
                 $("#image_info").attr('style' , `background-image:url('${image.ThumbnailURL}')`);
-                $("#avatar_info").attr('src' , image.UserAvatarURL);
-                $("#nomCreateur_info").val(image.Username);
+                //$("#avatar_info").attr('src' , image.UserAvatarURL);
+                $("#nomCreateur_info").html(image.Username);
+                $("#avatarCreateur").attr('src' , image.UserAvatarURL);
                 $("#lienImage").attr('href', image.OriginalURL);
                 
             }
