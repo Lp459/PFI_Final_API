@@ -66,12 +66,6 @@ $(() => {
     input.attr("onfocus", `if(this.checkValidity()) {form.${matchedInput.attr('id')}.pattern = this.value; form.${matchedInput.attr('id')}.required=this.value!='';}`);
   })
 
-  /*$(".Password").each(function (){
-    let pattern = String.raw`^\S{3,}$`;
-    $(this).attr('pattern', pattern);
-    $(this).attr("onchange", "if(!this.checkValidity()) {this.setCustomValidity('Votre mot de passe doit contenir 3 caractères minimum')}");
-  })*/
-
   $(".Name").each(function () {
     $(this).attr('pattern', String.raw`^[a-zA-Z]+$`);
   })
