@@ -341,6 +341,14 @@
                 }
                 GetImagesList();
             }
+
+            function Toggle() {
+                if($("#showPasswordCmd").attr("type") === "password") 
+                    $("#showPasswordCmd").attr("type", "text");
+                else
+                    $("#showPasswordCmd").attr("type", "password");
+            }
+
             function affichezUserList(images){
                 nbImagesUser = images.length;
                 console.log("user has images");
