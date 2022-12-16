@@ -82,9 +82,10 @@ $(() => {
       "document.getElementsByName('" +
       $(this).attr("name") +
       "').forEach((name) => {if(name.value.trim().length == 0)" +
-      "{name.setCustomValidity('Votre ne doit pas être vide'); name.reportValidity()} " +
+      "{name.setCustomValidity('Le champ ne doit pas être vide'); name.reportValidity()} " +
       "else {name.setCustomValidity('')} });"
     );
   })
+
 
 });
