@@ -7,6 +7,7 @@ const Gmail = require("../gmail");
 module.exports = class AccountsController extends require("./Controller") {
   constructor(HttpContext) {
     super(HttpContext, new usersRepository(), true /* read authorisation */);
+    this.imageRepository = new ImagesRepository();
   }
   //information qu<on a besoin pour faire l'avatar
   index(id) {
@@ -23,12 +24,10 @@ module.exports = class AccountsController extends require("./Controller") {
     let user = this.repository.findByField("Email", loginInfo.Email);
     if (user != null) {
       if (user.Password == loginInfo.Password) {
-        if (user.VerifyCode == "verified") {
-          let newToken = TokenManager.create(user);
-          this.HttpContext.response.JSON(newToken);
-        } else {
-          this.HttpContext.response.unverifiedUser();
-        }
+        
+        let newToken = TokenManager.create(user);
+        this.HttpContext.response.JSON(newToken);
+
       } else {
         this.HttpContext.response.wrongPassword();
       }
@@ -71,6 +70,7 @@ module.exports = class AccountsController extends require("./Controller") {
         if (this.repository.update(userFound) == 0) {
           this.HttpContext.response.ok();
           this.sendConfirmedEmail(userFound);
+
         } else {
           this.HttpContext.response.unprocessable();
         }
@@ -108,6 +108,7 @@ module.exports = class AccountsController extends require("./Controller") {
       }
       if (this.repository != null) {
         let updateResult = this.repository.update(user);
+        this.imageRepository.newETag();
         if (updateResult == this.repository.updateResult.ok) {
           this.HttpContext.response.ok();
           if (user.Email != foundedUser.Email) {
@@ -127,6 +128,7 @@ module.exports = class AccountsController extends require("./Controller") {
   // GET:account/remove/id
   remove(id) {
     // warning! this is not an API endpoint
+    this.imageRepository.newETag();
     super.remove(id);
     let imageRepository = new ImagesRepository();
     let images = imageRepository.getAll();

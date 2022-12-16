@@ -201,6 +201,7 @@
                     <label for="code_input">Code de vérification</label>
                         <input type="text" id="code_input" class="form-control" required>
                     </form>
+                    <p id="errorMessage"></p>
                     
                 </div>
                 <div id="errorDlg">
@@ -591,6 +592,7 @@
                 $("#inscriptionDlgOkBtn").text("Inscription");
                 $("#inscriptionDlg").dialog('open');
             }
+
             function Deconnexion(){
                 holdCheckETag = true;
                 createMode = true;
@@ -661,6 +663,16 @@
                 $("#confirmEmailDlg").dialog('option', 'title', "Verify");
                 $("#confirmEmailDlgOkBtn").text("Verify Code");
                 $("#confirmEmailDlg").dialog('open');
+            }
+            function ReOpenAgainDialogVerifyCodeEmail(){
+                //ouvrir verify Dialog 
+                holdCheckETag = true;
+                createMode = true;
+                $("#UserIdConfirm_input").val(userId);
+                $("#confirmEmailDlg").dialog('option', 'title', "Verify");
+                $("#confirmEmailDlgOkBtn").text("Verify Code");
+                $("#confirmEmailDlg").dialog('open');
+                $("#errorMessage").text("Code incorrect ! veuillez entrez le code envoyer à votre email.");
             }
             function UserVerified(){
                 verified = true;
@@ -914,15 +926,14 @@
                         text: "Title will be changed dynamically",
                         click: function () {
                             let user = InscriptionFromForm();
-                            if(user /*&& userConnected.VerifyCode=="verified"*/) {
-                                MODIFY(user, ModifyCallback , error)
-                                currentETag = "";
-                            }
-                            else if(user /*&& !userConnected.VerifyCode=="verified"*/ && VerifyPasswords()){
-                                REGISTER(user, OpenDialogVerifyCodeEmail, error);
-                                
-                            }
+                            let userConnected = RetrieveConnectedUser();
 
+                            if(userConnected) {
+                                MODIFY(user, ModifyCallback , error)
+                            }
+                            else if(user && VerifyPasswords()){
+                                REGISTER(user, OpenDialogVerifyCodeEmail, error);
+                            }
                             if(user){
                                 $(".scrollContainer").scrollTop(0);
                                 holdCheckETag = false;
@@ -958,7 +969,7 @@
                         click: function () {
                             let user = GetConfirmCodeFromForm()
                             if(user){
-                                VERIFY(user, UserVerified , error)
+                                VERIFY(user, UserVerified , ReOpenAgainDialogVerifyCodeEmail)
                                 $(".scrollContainer").scrollTop(0);
    
                             }
