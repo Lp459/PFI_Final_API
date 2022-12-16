@@ -189,7 +189,10 @@
                     </form>
                 </div>
                 <div id="AboutDlg">
-                    <h1></h1>
+                    <h3>Créateurs</h3>
+                    <br>
+                    <h4>Alexandre Carle</h4>
+                    <h4>Louis-philippe Rousseau</h4>
                 </div>
                 <div id="confirmDeleteDlg">
                     <span id="confirmationMessage"></span>
@@ -489,8 +492,12 @@
                 $("#errorDlg").dialog('open');
             }
             function errorInscription(){
-                $("#errorMessage").text('inscription invalide');
+                $("#errorMessage").text('Inscription invalide!');
                 $("#errorDlg").dialog('open');
+            }
+
+            function About() {
+                $("#AboutDlg").dialog('open');
             }
 
             function NewImage() {
@@ -671,8 +678,8 @@
                 holdCheckETag = true;
                 createMode = true;
                 $("#UserIdConfirm_input").val(user.Id);
-                $("#confirmEmailDlg").dialog('option', 'title', "Verify");
-                $("#confirmEmailDlgOkBtn").text("Verify Code");
+                $("#confirmEmailDlg").dialog('option', 'title', "Vérification");
+                $("#confirmEmailDlgOkBtn").text("Vérifier le code");
                 $("#confirmEmailDlg").dialog('open');
             }
             function ReOpenAgainDialogVerifyCodeEmail(){
@@ -680,7 +687,7 @@
                 holdCheckETag = true;
                 createMode = true;
                 $("#UserIdConfirm_input").val(userId);
-                $("#confirmEmailDlg").dialog('option', 'title', "Verify");
+                $("#confirmEmailDlg").dialog('option', 'title', "Vérification");
                 $("#confirmEmailDlgOkBtn").text("Vérifier le code");
                 $("#confirmEmailDlg").dialog('open');
                 $("#errorMessage").text("Code incorrect ! Veuillez entrez le code envoyer à votre email.");
@@ -793,6 +800,7 @@
                 $("#searchCmd").click(search);
                 $("#sortDesc").click(changeSort);
                 $("#sortAsc").click(changeSort);
+                $(".favicon").click(About);
                 UpdateDataListLocalStorage(RetrieveDatalistLocalStorage());
                 
                 $("#afficherBarreRecherche").click(e => {
@@ -875,7 +883,7 @@
                     }]
                 });
                 $("#loginDlg").dialog({
-                    title: "Login",
+                    title: "Connexion",
                     autoOpen: false,
                     modal: true,
                     show: { effect: 'fade', speed: 400 },
@@ -1056,7 +1064,7 @@
                     position: { my: "top", at: "top", of: window },
                     buttons: [{
                         id : "confirmLogOffBtnOk",
-                        text: "confirm",
+                        text: "Confirmer",
                         click: function () {
                             holdCheckETag = false;
                             imageIdToDelete = 0;
@@ -1072,6 +1080,22 @@
                         click: function () {
                             holdCheckETag = false;
                             imageIdToDelete = 0;
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
+                $("#AboutDlg").dialog({
+                    title: "À propos",
+                    autoOpen: false,
+                    modal: true,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                    width: 600, minWidth: 500, maxWidth: 500,
+                    height: 330, minHeight: 230, maxHeight: 230,
+                    position: { my: "top", at: "top", of: window },
+                    buttons: [{
+                        text: "Fermer",
+                        click: function () {
                             $(this).dialog("close");
                         }
                     }]
