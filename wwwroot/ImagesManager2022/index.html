@@ -183,6 +183,9 @@
                         <input type="text" id="EmailLogin_input" class="form-control Email" required>
                         <label for="Email_input">Password</label>
                         <input type="password" id="PasswordLogin_input" class="form-control" required>
+                        <span class="cmd fas fa-eye" style="margin-top: 10px;" id="showPasswordCmd" title="Afficher/Cacher le mot de passe" data-toggle="tooltip"></span>
+                        <span class="cmd fas fa-eye-slash" style="margin-top: 10px;" id="hidePasswordCmd" title="Afficher/Cacher le mot de passe" data-toggle="tooltip"></span>
+                        <br>
                         <input type="checkbox" name="RememberMe_input" id="RememberMe_input" class="checkbox"><label for="RememberMe_input">Se souvenir de moi</label>
                        
                        
@@ -241,7 +244,8 @@
             let loggedIn = false;
             let userId = 0;
             let keywordsTab = [];
-            let sort = true
+            let sort = true;
+            let showPassword = false;
             let queryString= "";
             let idSelectedUser = "";
             let nbImagesUser = "";
@@ -341,6 +345,22 @@
                 }
                 GetImagesList();
             }
+
+            function Toggle() {
+                showPassword = !showPassword
+                if(showPassword) {
+                    $("#hidePasswordCmd").show();
+                    $("#showPasswordCmd").hide();
+                    $("#PasswordLogin_input").attr("type", "text");
+                }
+                else {
+                    $("#hidePasswordCmd").hide();
+                    $("#showPasswordCmd").show();
+                    $("#PasswordLogin_input").attr("type", "password");
+                }
+                    
+            }
+
             function affichezUserList(images){
                 nbImagesUser = images.length;
                 console.log("user has images");
@@ -718,6 +738,7 @@
                 $("#userName").hide();
                 $("#sortDesc").hide();
                 $("#verifiedUser").hide();
+                $("#hidePasswordCmd").hide();
                 GetImagesList();
             }
             function AfficherAvatar(user){
@@ -801,6 +822,8 @@
                 $("#sortDesc").click(changeSort);
                 $("#sortAsc").click(changeSort);
                 $(".favicon").click(About);
+                $("#showPasswordCmd").click(Toggle);
+                $("#hidePasswordCmd").click(Toggle);
                 UpdateDataListLocalStorage(RetrieveDatalistLocalStorage());
                 
                 $("#afficherBarreRecherche").click(e => {
@@ -888,7 +911,7 @@
                     modal: true,
                     show: { effect: 'fade', speed: 400 },
                     hide: { effect: 'fade', speed: 400 },
-                    width: 640,
+                    width: 540,
                     minWidth: 640,
                     maxWidth: 640,
                     height: 380,
