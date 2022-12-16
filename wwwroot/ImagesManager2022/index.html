@@ -934,7 +934,7 @@
                             else if(user && VerifyPasswords()){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error);
                             }
-                            if(user){
+                            if(user && VerifyPasswords()){
                                 $(".scrollContainer").scrollTop(0);
                                 holdCheckETag = false;
                                 $(this).dialog("close");
