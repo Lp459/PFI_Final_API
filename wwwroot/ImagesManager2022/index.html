@@ -170,7 +170,7 @@
                         <input type="password" id="ConfirmPassword_input" class="form-control">
                         <p id="ConfirmedPassword"></p>
                         <label for="imageUser" style="margin-top: 10px;">Avatar</label>
-                        <div id='imageUser' name="imageUser" class='ImageUploader Image' defaultImage='images/No_Image.png'
+                        <div id='imageUser' class='ImageUploader' defaultImage='images/No_Image.png'
                             waitingImage='images/writing.gif' required>
                         </div>
                        
@@ -634,6 +634,7 @@
                 let password = $("#Password_input").val();
                 let confirmedPassword = $("#ConfirmPassword_input").val();
                 let estVide = $.trim(password).length == 0 || $.trim(confirmedPassword).length == 0;
+                console.log(estVide);
                 if(password === confirmedPassword && !estVide) {
                     $("#ConfirmedPassword").html("Les mots de passe correspondent").css("color", "green");
                     return true;

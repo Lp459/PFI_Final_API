@@ -85,33 +85,6 @@ $(() => {
       "{name.setCustomValidity('Votre ne doit pas être vide'); name.reportValidity()} " +
       "else {name.setCustomValidity('')} });"
     );
-    /*let name = document.getElementById("Name_input");
-    let trimmedName = name.value.trim();
-    console.log(name.value);
-    console.log(trimmedName.length == 0);
-    if(trimmedName.length == 0) {
-      name.setCustomValidity('Votre nom ne doit pas être vide');
-      name.reportValidity();
-    }*/
-  })
-
-  $(".Image").each(function () {
-    $(this).attr(
-      "onchange",
-      "document.getElementsByName('" +
-      $(this).attr("name") +
-      "').forEach((image) => {if(image.value.trim().length == 0)" +
-      "{image.setCustomValidity('Veuillez remplir ce champ'); image.reportValidity()} " +
-      "else {image.setCustomValidity('')} });"
-    );
-    /*let name = document.getElementById("Name_input");
-    let trimmedName = name.value.trim();
-    console.log(name.value);
-    console.log(trimmedName.length == 0);
-    if(trimmedName.length == 0) {
-      name.setCustomValidity('Votre nom ne doit pas être vide');
-      name.reportValidity();
-    }*/
   })
 
 });
