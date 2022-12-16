@@ -488,6 +488,10 @@
                 $("#errorMessage").text(errorMessage);
                 $("#errorDlg").dialog('open');
             }
+            function errorInscription(){
+                $("#errorMessage").text('inscription invalide');
+                $("#errorDlg").dialog('open');
+            }
 
             function NewImage() {
                 holdCheckETag = true;
@@ -637,13 +641,20 @@
                 let confirmedPassword = $("#ConfirmPassword_input").val();
                 let estVide = $.trim(password).length == 0 || $.trim(confirmedPassword).length == 0;
                 console.log(estVide);
-                if(password === confirmedPassword && !estVide) {
-                    $("#ConfirmedPassword").html("Les mots de passe correspondent").css("color", "green");
-                    return true;
-                } else {
-                    $("#ConfirmedPassword").html("Les mots de passe ne correspondent pas").css("color", "red");
-                    return false;
+                if(estVide){
+                    errorInscription();
                 }
+                else{
+                    if(password === confirmedPassword && !estVide) {
+                        $("#ConfirmedPassword").html("Les mots de passe correspondent").css("color", "green");
+                        return true;
+                    } else {
+                        $("#ConfirmedPassword").html("Les mots de passe ne correspondent pas").css("color", "red");
+                        return false;
+                    }
+                }
+                
+
             }
             function UserConnected(token){
 
@@ -927,14 +938,14 @@
                         click: function () {
                             let user = InscriptionFromForm();
                             let userConnected = RetrieveConnectedUser();
-
                             if(userConnected) {
                                 MODIFY(user, ModifyCallback , error)
                             }
-                            else if(user && VerifyPasswords()){
+                            else if(VerifyPasswords()){
                                 REGISTER(user, OpenDialogVerifyCodeEmail, error);
                             }
-                            if(user && VerifyPasswords()){
+                            
+                            if(user){
                                 $(".scrollContainer").scrollTop(0);
                                 holdCheckETag = false;
                                 $(this).dialog("close");
